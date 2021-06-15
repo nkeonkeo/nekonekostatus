@@ -1,0 +1,29 @@
+{%set title = "登录"%}
+{%extends "./base.html"%}
+
+{%block content%}
+<div class="mdui-card">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">登录</div>
+        <div class="mdui-card-primary-subtitle">Login</div>
+    </div>
+    <div class="mdui-card-content">
+        <div class="mdui-textfield">
+            <i class="mdui-icon material-icons">lock</i>
+            <label class="mdui-textfield-label">密码</label>
+            <input class="mdui-textfield-input" type="password" id="password">
+            <div class="mdui-textfield-helper"></div>
+        </div>
+    </div>
+    <div class="mdui-card-actions">
+        <button class="mdui-btn mdui-btn-dense mdui-btn-raised btn mdui-color-blue mdui-text-color-white" id="login">
+            <i class="mdui-icon mdui-icon-left material-icons">done_all</i>
+            登录
+        </button>
+    </div>
+</div>
+{%endblock%}
+{%block js%}
+<script src="/js/md5.min.js"></script>
+<script src="/js/login.js"></script>
+{%endblock%}

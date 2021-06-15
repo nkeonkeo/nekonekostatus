@@ -1,0 +1,41 @@
+{% set title = "管理服务器" %}
+{%set admin = true%}
+{% extends "../base.html" %}
+
+{% block content %}
+<p>
+    <button class="mdui-btn mdui-btn-raised mdui-color-blue mdui-text-color-white btn" href="/admin/servers/add">新增服务器</button>
+</p>
+<div class="mdui-table-fluid">
+<table class="mdui-table">
+    <thead>
+        <tr>
+            <th>名称</th><th>host</th><th>range</th><th>倍率</th><th>等级</th><th>类型</th><th>状态</th><th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%set stas={'1':'<st>正常</st>','0':'<at>不可用</at>'}%}
+    {%for server in servers%}
+        <tr>
+            <td class="ccp">{{server.name}}</td>
+            <td class="ccp">{{server.host}}</td>
+            <td class="ccp">{{server.min}}-{{server.max}}</td>
+            <td class="ccp">{{server.mf}}</td>
+            <td class="ccp">{{server.level}}</td>
+            <td>{{server.type}}</td>
+            <td>{{stas[server.status]|safe}}</td>
+            <td>
+                <a href="/admin/servers/{{server.sid}}/" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'编辑'}">
+                    <i class="mdui-icon material-icons">edit</i>
+                </a>
+            </td>
+        </tr>
+    {%endfor%}
+    </tbody>
+</table>
+</div>
+{%endblock%}
+{%block js%}
+<script>
+</script>
+{% endblock %}

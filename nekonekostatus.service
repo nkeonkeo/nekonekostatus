@@ -1,0 +1,11 @@
+[Unit]
+Description=nekonekostatus
+
+[Service]
+Type=forking
+ExecStart=/root/nekonekostatus/run.sh
+ExecReload=/root/nekonekostatus/restart.sh
+EexcStop=/root/nekonekostatus/stop.sh
+
+[Install]
+WantedBy=multi-user.target

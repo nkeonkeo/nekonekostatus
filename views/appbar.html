@@ -1,0 +1,25 @@
+<div class="mdui-appbar mdui-appbar-fixed mdui-color-white">
+    <div class="mdui-toolbar mdui-color-theme">
+        <div class="mdui-typo-title">
+            <span class="mdui-hidden-xs-down">{{config.site.name}}
+        </div>
+
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="/login" mdui-tooltip="{content:'登录'}" class="mdui-icon material-icons">build</a>
+        <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'rtx on/off'}" onclick="rtx()">
+            <i class="mdui-icon material-icons">brightness_4</i>
+        </button>
+    </div>
+</div>
+{%block js%}
+<script>
+var rtx_status=Number(localStorage.getItem('rtx'))||0;
+if(rtx_status)document.body.classList.add("mdui-theme-layout-dark");
+function rtx(){
+    if(rtx_status)document.body.classList.remove("mdui-theme-layout-dark");
+    else document.body.classList.add("mdui-theme-layout-dark");
+    rtx_status^=1;
+    localStorage.setItem('rtx',rtx_status);
+}
+</script>
+{%endblock%}

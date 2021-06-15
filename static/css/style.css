@@ -1,0 +1,50 @@
+.mdui-appbar{box-shadow:0 -1px 10px 0 rgb(32 33 36 / 28%)}
+.mdui-card,.mdui-btn-raised,.mdui-panel-item{box-shadow:0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);}
+.mdui-drawer{box-shadow:-1px 10px 10px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);}
+footer{box-shadow:5px 0px 5px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);}
+st{font-weight:600;color:#475bca;}
+at{font-weight:600;color:#FF4081;}
+gt{font-weight:600;color:#00C853;}
+yt{font-weight:600;color:#ffbb00;}
+
+.mdui-theme-layout-dark st{color:#9aa9ff;}
+.mdui-theme-layout-dark at{color:#f7a4b9;}
+.mt{margin-top:15px;}
+.mt-s{margin-top:3px;}
+.mdui-card ul.mdui-list{padding-left: 0;}
+.text{font-size:20px;}
+.text_s{font-size:17px;}
+.mdui-switch{height:20px;line-height:20px;}
+.stop{background:#b6b6b6;}.stop td{color:#fff;font-weight:bold;}
+.ccp:hover,.poh:hover{cursor: pointer;}
+
+.mdui-drawer, footer{
+    /* background-color: #fdfdfdda; */
+    backdrop-filter: blur(15px) brightness(110%);
+}
+.mdui-card{
+    border-radius: 6px;
+    backdrop-filter:blur(7px);
+    /* background-color: #ffffff8a; */
+}
+.btn{
+    border-radius: 5px;
+    font-weight: bold;font-size: 15px;
+}
+
+@media (max-width: 1023.9px){
+    .mdui-drawer{background-color: #fff;}
+    .mdui-overlay{backdrop-filter:blur(7px);}
+}
+html{
+    /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Cdefs%3E%3Crect stroke='%23ffffff' stroke-width='0.49' width='1' height='1' id='s'/%3E%3Cpattern id='a' width='3' height='3' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cuse fill='%23fafafa' href='%23s' y='2'/%3E%3Cuse fill='%23fafafa' href='%23s' x='1' y='2'/%3E%3Cuse fill='%23f5f5f5' href='%23s' x='2' y='2'/%3E%3Cuse fill='%23f5f5f5' href='%23s'/%3E%3Cuse fill='%23f0f0f0' href='%23s' x='2'/%3E%3Cuse fill='%23f0f0f0' href='%23s' x='1' y='1'/%3E%3C/pattern%3E%3Cpattern id='b' width='7' height='11' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23ebebeb'%3E%3Cuse href='%23s'/%3E%3Cuse href='%23s' y='5' /%3E%3Cuse href='%23s' x='1' y='10'/%3E%3Cuse href='%23s' x='2' y='1'/%3E%3Cuse href='%23s' x='2' y='4'/%3E%3Cuse href='%23s' x='3' y='8'/%3E%3Cuse href='%23s' x='4' y='3'/%3E%3Cuse href='%23s' x='4' y='7'/%3E%3Cuse href='%23s' x='5' y='2'/%3E%3Cuse href='%23s' x='5' y='6'/%3E%3Cuse href='%23s' x='6' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='h' width='5' height='13' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23ebebeb'%3E%3Cuse href='%23s' y='5'/%3E%3Cuse href='%23s' y='8'/%3E%3Cuse href='%23s' x='1' y='1'/%3E%3Cuse href='%23s' x='1' y='9'/%3E%3Cuse href='%23s' x='1' y='12'/%3E%3Cuse href='%23s' x='2'/%3E%3Cuse href='%23s' x='2' y='4'/%3E%3Cuse href='%23s' x='3' y='2'/%3E%3Cuse href='%23s' x='3' y='6'/%3E%3Cuse href='%23s' x='3' y='11'/%3E%3Cuse href='%23s' x='4' y='3'/%3E%3Cuse href='%23s' x='4' y='7'/%3E%3Cuse href='%23s' x='4' y='10'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='c' width='17' height='13' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23e5e5e5'%3E%3Cuse href='%23s' y='11'/%3E%3Cuse href='%23s' x='2' y='9'/%3E%3Cuse href='%23s' x='5' y='12'/%3E%3Cuse href='%23s' x='9' y='4'/%3E%3Cuse href='%23s' x='12' y='1'/%3E%3Cuse href='%23s' x='16' y='6'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='d' width='19' height='17' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23ffffff'%3E%3Cuse href='%23s' y='9'/%3E%3Cuse href='%23s' x='16' y='5'/%3E%3Cuse href='%23s' x='14' y='2'/%3E%3Cuse href='%23s' x='11' y='11'/%3E%3Cuse href='%23s' x='6' y='14'/%3E%3C/g%3E%3Cg fill='%23e0e0e0'%3E%3Cuse href='%23s' x='3' y='13'/%3E%3Cuse href='%23s' x='9' y='7'/%3E%3Cuse href='%23s' x='13' y='10'/%3E%3Cuse href='%23s' x='15' y='4'/%3E%3Cuse href='%23s' x='18' y='1'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='e' width='47' height='53' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23413fb5'%3E%3Cuse href='%23s' x='2' y='5'/%3E%3Cuse href='%23s' x='16' y='38'/%3E%3Cuse href='%23s' x='46' y='42'/%3E%3Cuse href='%23s' x='29' y='20'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='f' width='59' height='71' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23413fb5'%3E%3Cuse href='%23s' x='33' y='13'/%3E%3Cuse href='%23s' x='27' y='54'/%3E%3Cuse href='%23s' x='55' y='55'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='g' width='139' height='97' patternUnits='userSpaceOnUse' patternTransform='rotate(82 1000 750) scale(13.25) translate(-924.53 -693.4)'%3E%3Cg fill='%23413fb5'%3E%3Cuse href='%23s' x='11' y='8'/%3E%3Cuse href='%23s' x='51' y='13'/%3E%3Cuse href='%23s' x='17' y='73'/%3E%3Cuse href='%23s' x='99' y='57'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23b)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23h)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23c)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23d)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23e)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23f)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23g)' width='100%25' height='100%25'/%3E%3C/svg%3E"); */
+    /* background-image: url("https://ftp.bmp.ovh/imgs/2021/06/dec02b1482778512.jpg"); */
+    /* background-image: url("https://api.ixiaowai.cn/api/api.php");     */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23f6c5d3' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%237b8aca' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23ecc7e1' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%237491d0' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23d9c6eb' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%236792cc' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23c4caf3' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%236caae6' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23afd3f5' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%2374bef4' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%239ddcfa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%2369c3f8' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+body{
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: saturate(150%) blur(1.5em);
+}

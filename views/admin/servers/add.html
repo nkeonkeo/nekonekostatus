@@ -1,0 +1,110 @@
+{% set title = "新增服务器" %}
+{%set admin = true%}
+{% extends "../../base.html" %}
+
+{% block content %}
+<div class="mdui-card mt">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title mdui-text-truncate">新增服务器</div>
+    </div>
+    <div class="mdui-card-content">        
+        <div class="mdui-row mdui-row-sm-3">
+            <div class="mdui-col-xs-4 mdui-textfield">
+                <label class="mdui-textfield-label">sid</label>
+                <input class="mdui-textfield-input" type="text" id='add_sid' value="{{uuid.v4()}}">
+            </div>
+            <div class="mdui-col-xs-6 mdui-textfield">
+                <label class="mdui-textfield-label">name</label>
+                <input class="mdui-textfield-input" type="text" id='add_name'>
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">TOP</label>
+                <input class="mdui-textfield-input" type="number" id='add_top' value=1>
+            </div>
+        </div>
+
+        <br>
+
+        <h3>SSH</h3>
+        <div class="mdui-row mdui-row-sm-5">            
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">域名/IP</label>
+                <input class="mdui-textfield-input" type="text" id='add_ssh_host'>
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">端口</label>
+                <input class="mdui-textfield-input" type="number" id='add_ssh_port' placeholder="22">
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">用户名</label>
+                <input class="mdui-textfield-input" type="text" id='add_ssh_username' placeholder="root">
+            </div>
+            <div class="mdui-col-xs-3 mdui-textfield">
+                <label class="mdui-textfield-label">密码 (可选)</label>
+                <input class="mdui-textfield-input" type="text" id='add_ssh_password'>
+            </div>
+            <div class="mdui-col-xs-3 mdui-textfield">
+                <label class="mdui-textfield-label">私钥 (可选)</label>
+                <input class="mdui-textfield-input" type="text" id='add_ssh_privateKey'>
+            </div>
+        </div>
+
+        <br>
+
+        <h3>API</h3>
+        <div class="mdui-row mdui-row">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">被动/主动 同步</label>
+                <label class="mdui-switch" mdui-tooltip="{content:'被动: 面板从探针获取数据\<br\> 主动: 探针向面板发送数据'}">
+                    <input type="checkbox" id="add_api_mode" onclick="E('add_api_port_input').hidden^=1">
+                    <i class="mdui-switch-icon"></i>
+                </label>
+            </div>
+              
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">通讯秘钥</label>
+                <input class="mdui-textfield-input" type="text" id='add_api_key' value="{{uuid.v4()}}">
+            </div>
+            <div class="mdui-col mdui-textfield" id="add_api_port_input">
+                <label class="mdui-textfield-label">被动通讯端口</label>
+                <input class="mdui-textfield-input" type="number" id='add_api_port' placeholder=9999>
+            </div>
+        </div>
+    </div>
+    <div class="mdui-card-menu">
+        <button class="mdui-btn mdui-btn-icon mdui-color-green mdui-text-color-white" onclick="add()" mdui-tooltip="{content:'保存并添加'}">
+            <i class="mdui-icon material-icons">save</i>
+        </button>
+    </div>
+</div>
+{%endblock%}
+{%block js%}
+{%block addscript%}
+<script>
+async function add(){
+    var sid=V('add_sid'),
+        name=V('add_name'),
+        top=Number(V('add_top'));
+    startloading();
+    var data={
+        ssh:{
+            host:V('add_ssh_host'),
+            port:V('add_ssh_port'),
+            username:V('add_ssh_username'),
+            password:V('add_ssh_password'),
+            privateKey:V('add_ssh_privateKey'),
+        },
+        api:{
+            mode:E('add_api_mode').checked,
+            key:V('add_api_key'),
+            port:V('add_api_port'),
+        }
+    };
+    var res=await postjson(`/admin/servers/add`,{sid,name,top,data});
+    endloading();
+    notice(res.data);
+    if(res.status)redirect(`/admin/servers/${res.data}/`);
+}
+</script>
+{%endblock%}
+{%endblock%}

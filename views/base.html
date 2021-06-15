@@ -1,0 +1,33 @@
+{%set Title=config.site.name%}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{Title}}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" as="style">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" media="all">
+    <!-- <link rel="preload" href="/mdui/css/mdui.min.css" as="style"> -->
+    <!-- <link rel="stylesheet" href="/mdui/css/mdui.min.css" media="all"> -->
+    <link rel="shortcut icon" href="/img/logo.svg">
+    <link rel="stylesheet" href="/css/style.min.css">
+</head>
+<body class="mdui-appbar-with-toolbar mdui-theme-accent-blue">
+    <div id='loading' class="mdui-spinner" hidden style="z-index:10000000;position:fixed;top:0;bottom:0;left:0;right:0;margin: auto;height: 50px;width: 50px;"></div>
+    {%include 'appbar.html'%}
+
+    <div id='container' class="mdui-container{%if fluid%}-fluid{%endif%}" style="margin-top: 8px;">{%block content%}{%endblock%}</div>
+</body>
+{%include "./footer.html"%}
+
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
+<!-- <script src="/mdui/js/mdui.min.js"></script> -->
+<script src="/js/core.js"></script>
+<script>
+    var container=document.querySelector("#container");
+    container.style.minHeight=window.innerHeight-document.body.clientHeight+container.clientHeight+'px';
+    mdui.mutation();
+</script>
+{%block js%}
+{%endblock%}
+</html>

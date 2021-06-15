@@ -1,0 +1,30 @@
+{%set title = "管理"%}
+{%set admin=true%}
+{%extends "./base.html"%}
+
+{%block content%}
+<ul id="OperationList" class="mdui-list">
+    <a href="/admin/statistics/" class="mdui-list-item">全站统计</a>
+    <li class="mdui-divider"></li>
+    <a href="/admin/user_types/" class="mdui-list-item">用户类型</a>
+    <a href="/admin/users/" class="mdui-list-item">用户列表</a>    
+    <li class="mdui-divider"></li>
+    <a href="/admin/ticket_types/" class="mdui-list-item">工单类型</a>
+    <a href="/admin/tickets/" class="mdui-list-item">工单列表</a>    
+    <li class="mdui-divider"></li>
+    <a href="/admin/orders/" class="mdui-list-item">订单列表</a>
+    <a href="/admin/goods/" class="mdui-list-item">流量包列表</a>
+    <li class="mdui-divider"></li>
+    <a href="/admin/rules/" class="mdui-list-item">规则列表</a>
+    <a href="/admin/servers/" class="mdui-list-item">管理服务器</a>
+    <li class="mdui-divider"></li>
+    <a href="/admin/gcates/" class="mdui-list-item">商品分类</a>
+    <a href="/admin/gl/" class="mdui-list-item">商品列表</a>
+    <li class="mdui-divider"></li>
+    <a href="/admin/log/" class="mdui-list-item">查看日志</a>
+    <a href="/admin/md" class="mdui-list-item">编辑说明</a>
+    <a href="/admin/config/" class="mdui-list-item">修改配置</a>
+    <li class="mdui-divider"></li>
+    <a href="/admin/expt/database" class="mdui-list-item" download="db.db">下载数据库</a>
+</ul>
+{%endblock%}

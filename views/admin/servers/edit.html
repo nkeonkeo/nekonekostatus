@@ -1,0 +1,138 @@
+{% set title = "编辑服务器" %}
+{%set admin = true%}
+{% extends "../../base.html" %}
+
+{% block content %}
+<div class="mdui-card mt">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title mdui-text-truncate">{{server.name}}</div>
+        <input type="text" id='sid' value="{{server.sid}}" hidden>
+    </div>
+    <div class="mdui-card-content">
+        <div class="mdui-row">
+            <div class="mdui-col-xs-4 mdui-textfield">
+                <label class="mdui-textfield-label">name</label>
+                <input class="mdui-textfield-input" type="text" id='edit_name' value="{{server.name}}">
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">TOP</label>
+                <input class="mdui-textfield-input" type="number" id='edit_top' value="{{server.top}}">
+            </div>
+            {%set stas={'1':'正常','0':'不可用'}%}
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">状态</label>
+                <select class="mdui-select" id='edit_status'>
+                    {%for sta,name in stas%}
+                    <option value="{{sta}}" {%if sta==server.status%}selected{%endif%}>{{name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+
+        <br>
+        <h3>SSH</h3>
+        <div class="mdui-row mdui-row-sm-4">            
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">域名/IP</label>
+                <input class="mdui-textfield-input" type="text" id='edit_ssh_host' value="{{server.data.ssh.host}}">
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">端口</label>
+                <input class="mdui-textfield-input" type="number" id='edit_ssh_port' value="{{server.data.ssh.port}}">
+            </div>
+            <div class="mdui-col-xs-2 mdui-textfield">
+                <label class="mdui-textfield-label">用户名</label>
+                <input class="mdui-textfield-input" type="text" id='edit_ssh_username' value="{{server.data.ssh.username}}">
+            </div>
+            <div class="mdui-col-xs-3 mdui-textfield">
+                <label class="mdui-textfield-label">密码</label>
+                <input class="mdui-textfield-input" type="text" id='edit_ssh_password' value="{{server.data.ssh.password}}">
+            </div>
+            <div class="mdui-col-xs-3 mdui-textfield">
+                <label class="mdui-textfield-label">私钥</label>
+                <input class="mdui-textfield-input" type="text" id='edit_ssh_privateKey' value="{{server.data.ssh.privateKey}}">
+            </div>
+        </div>
+        <h3>API</h3>
+        <div class="mdui-row mdui-row">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">被动/主动 同步</label>
+                <label class="mdui-switch" mdui-tooltip="{content:'被动: 面板从探针获取数据\<br\> 主动: 探针向面板发送数据'}">
+                    <input type="checkbox" id="edit_api_mode" onclick="E('edit_api_port_input').hidden^=1" {%if server.data.api.mode%}checked{%endif%}>
+                    <i class="mdui-switch-icon"></i>
+                </label>
+            </div>
+              
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">通讯秘钥</label>
+                <input class="mdui-textfield-input" type="text" id='edit_api_key' value="{{server.data.api.key}}">
+            </div>
+            <div class="mdui-col mdui-textfield" id="edit_api_port_input" {%if server.data.api.mode%}hidden{%endif%}>
+                <label class="mdui-textfield-label">被动通讯端口</label>
+                <input class="mdui-textfield-input" type="number" id='edit_api_port' value="{{server.data.api.port}}">
+            </div>
+        </div>
+    </div>
+    <div class="mdui-card-menu">
+        <button class="mdui-btn mdui-btn-icon mdui-color-blue mdui-text-color-white" onclick="edit()" mdui-tooltip="{content:'保存修改'}">
+            <i class="mdui-icon material-icons">save</i>
+        </button>
+        <button class="mdui-btn mdui-btn-icon mdui-color-red mdui-text-color-white" onclick="del()">
+            <i class="mdui-icon material-icons">delete</i>
+        </button>
+    </div>
+    <div class="mdui-card-actions">
+        {%block actions%}
+        <button class="btn mdui-btn mdui-btn-dense mdui-btn-raised mdui-color-blue mdui-text-color-white" onclick="init()" mdui-tooltip="{content:'安装探针'}">安装</button>
+        {%endblock%}
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+{%block editscript%}
+<script>
+async function edit(){
+    var sid=V('sid'),
+        name=V('edit_name'),
+        top=Number(V('edit_top')),
+        status=Number(V('edit_status'));
+    startloading();
+    var data={
+        ssh:{
+            host:V('edit_ssh_host'),
+            port:Number(V('edit_ssh_port')),
+            username:V('edit_ssh_username'),
+            password:V('edit_ssh_password'),
+            privateKey:V('edit_ssh_privateKey')
+        },
+        api:{
+            mode:E('edit_api_mode').checked,
+            key:V('edit_api_key'),
+            port:Number(V('edit_api_port')),
+        }
+    };
+    console.log({sid,name,data,top,status})
+    var res=await postjson(`./edit`,{sid,name,data,top,status});
+    endloading();
+    notice(res.data);
+}
+</script>
+{%endblock%}
+<script>
+async function del(){
+    if(!confirm("确认删除?"))return;
+    startloading();
+    var res=await postjson(`./del`);
+    endloading();
+    notice(res.data);
+    if(res.status)redirect('/admin/servers/');
+}
+async function init(){
+    startloading();
+    var res=await postjson(`./init`);
+    notice(res.data);
+    endloading();
+}
+</script>
+{%endblock%}

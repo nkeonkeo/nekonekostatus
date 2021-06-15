@@ -1,0 +1,11 @@
+module.exports={
+port:5555,
+site:{
+    url: "https://status.nekoneko.cloud",
+    name: "Neko Neko Status",
+},
+noCache:false,
+admin:{
+    password:"nekonekocloud"
+},
+}
