@@ -28,7 +28,7 @@ var env=nunjucks.configure('views', {
 });
 
 var admin_tokens=new Set();
-for(var token of require("./tokens.json"))admin_tokens.add(token);
+try{for(var token of require("./tokens.json"))admin_tokens.add(token);}catch{}
 setInterval(()=>{
     var tokens=[];
     for(var token of admin_tokens.keys())tokens.push(token);
@@ -51,6 +51,11 @@ svr.post('/login',(req,res)=>{
         res.json(pr(1,token));
     }
     else res.json(pr(0,"密码错误"));
+});
+svr.get('/logout',(req,res)=>{
+    admin_tokens.delete(req.cookies.token);
+    res.clearCookie("token");
+    res.redirect("/login");
 });
 svr.all('/admin*',(req,res,nxt)=>{
     if(req.admin)nxt();

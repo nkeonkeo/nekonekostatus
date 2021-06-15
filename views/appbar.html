@@ -5,7 +5,11 @@
         </div>
 
         <div class="mdui-toolbar-spacer"></div>
+        {%if admin%}
+        <a href="/logout" mdui-tooltip="{content:'登出'}" class="mdui-icon material-icons">exit_to_app</a>
+        {%else%}
         <a href="/login" mdui-tooltip="{content:'登录'}" class="mdui-icon material-icons">build</a>
+        {%endif%}
         <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'rtx on/off'}" onclick="rtx()">
             <i class="mdui-icon material-icons">brightness_4</i>
         </button>

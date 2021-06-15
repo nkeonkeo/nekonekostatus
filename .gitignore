@@ -3,3 +3,4 @@ database/db.db
 node_modules
 work.js
 neko-status
+tokens.json
