@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /root/nekonekostatus
+cd /root/nekonekostatus/
 forever stop nekonekostatus.js
