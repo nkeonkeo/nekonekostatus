@@ -46,14 +46,14 @@ rt.get("/admin/servers/:sid",(req,res)=>{
 
 rt.get("/get-neko-status",async(req,res)=>{
     var path=__dirname+'/neko-status';
-    if(!fs.existsSync(path)){
-        await fetch("文件url", {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/octet-stream' },
-        }).then(res=>res.buffer()).then(_=>{
-            fs.writeFileSync(path,_,"binary");
-        });
-    }
+    // if(!fs.existsSync(path)){
+    //     await fetch("文件url", {
+    //         method: 'GET',
+    //         headers: { 'Content-Type': 'application/octet-stream' },
+    //     }).then(res=>res.buffer()).then(_=>{
+    //         fs.writeFileSync(path,_,"binary");
+    //     });
+    // }
     res.sendFile(path);
 })
 svr.use(rt);

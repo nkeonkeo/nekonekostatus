@@ -11,6 +11,12 @@ svr.get("/",(req,res)=>{
     });
 });
 svr.get("/stats/data",(req,res)=>{res.json(stats);});
+svr.get("/stats/{sid}",(req,res)=>{
+    res.render('stat',{
+        stat:stats[sid],
+        admin:req.admin
+    });
+});
 svr.post("/stats/update",(req,res)=>{
     var {sid,data}=req.body;
     stats[sid]=data;
