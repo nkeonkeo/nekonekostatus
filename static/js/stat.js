@@ -18,10 +18,13 @@ setInterval(async()=>{
         E(`CPU${++i}_progress`).style.width=`${usage*100}%`;
     }
     
-    var {used,total}=mem.virtual,usage=used/total;
+    var {used,total}=mem.virtual,usage=used/total,content;
     E(`MEM`).innerText=(usage*100).toFixed(2)+'%';
     E(`MEM_progress`).style.width=`${usage*100}%`;
-	var content=`${strB(used)}/${strB(total)}`;
+    content=`virtual: ${strB(used)}/${strB(total)}`;
+    var {used,total}=mem.swap,usage=used/total;
+    E(`SWAP_progress`).style.width=`${usage*100}%`;
+    content+=`\nswap: ${strB(used)}/${strB(total)}`;
     mem_tooltip.$element[0].innerText=content;
     E(`NET_IN`).innerText=strB(net.delta.in);
     E(`NET_OUT`).innerText=strB(net.delta.out);
