@@ -26,7 +26,6 @@ var env=nunjucks.configure('views', {
     express: svr,
     watch:config.noCache,
 });
-
 var admin_tokens=new Set();
 try{for(var token of require("./tokens.json"))admin_tokens.add(token);}catch{}
 setInterval(()=>{

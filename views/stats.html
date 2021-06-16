@@ -9,13 +9,13 @@
     <div class="mdui-col">
         <div class="mdui-card mt {%if node.stat==0%}mdui-text-color-grey offline{%endif%}">
             <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title mdui-text-truncate">{{node.name}}</div>
-                <!-- <div class="mdui-card-primary-subtitle">{{stat.describe}}</div> -->
+                <div class="mdui-card-primary-title mdui-text-truncate" href="/stats/{{sid}}/">{{node.name}}</div>
+                <!-- <div class="mdui-card-primary-subtitle">{{node.describe}}</div> -->
             </div>
             <div class="mdui-card-menu">
                 <i class="mdui-icon material-icons" id="{{sid}}_host">info_outline</i>
                 {%if admin%}
-                <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons" id="{{sid}}_host">edit</i></a>
+                <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">edit</i></a>
                 {%endif%}
             </div>
             <div class="mdui-card-content">
@@ -73,9 +73,6 @@
                         </div>
                     </li>
                 </ul>
-            </div>
-            <div class="mdui-card-actions mdui-float-right">
-                
             </div>
         </div>
     </div>

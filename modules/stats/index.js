@@ -11,11 +11,16 @@ svr.get("/",(req,res)=>{
     });
 });
 svr.get("/stats/data",(req,res)=>{res.json(stats);});
-svr.get("/stats/{sid}",(req,res)=>{
+svr.get("/stats/:sid",(req,res)=>{
+    var {sid}=req.params,node=stats[sid];
     res.render('stat',{
-        stat:stats[sid],
+        sid,node,
         admin:req.admin
     });
+});
+svr.get("/stats/:sid/data",(req,res)=>{
+    var {sid}=req.params;
+    res.json({sid,...stats[sid]});
 });
 svr.post("/stats/update",(req,res)=>{
     var {sid,data}=req.body;
