@@ -1,7 +1,8 @@
 const {NodeSSH}=require('node-ssh');
+var defaultTimeout=10000;
 async function ssh_con(key){
     if(!key.privateKey||key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=5000;
+    key.readyTimeout=defaultTimeout;
     key.tryKeyboard=true;
     var ssh=new NodeSSH();
     try{await ssh.connect(key);}
@@ -19,7 +20,7 @@ async function ssh_exec(ssh,sh){
 }
 async function spwan(key,sh,onData=(chunk)=>{process.stdout.write(chunk)}){
     if(key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=5000;
+    key.readyTimeout=defaultTimeout;
     key.tryKeyboard=true;
     try{
     var ssh=new NodeSSH();
@@ -33,7 +34,7 @@ async function spwan(key,sh,onData=(chunk)=>{process.stdout.write(chunk)}){
 }
 async function exec(key,sh){
     if(key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=5000;
+    key.readyTimeout=defaultTimeout;
     key.tryKeyboard=true;
     try{
     var ssh=new NodeSSH();

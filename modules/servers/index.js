@@ -1,7 +1,10 @@
 "use strict";
-const fs=require("fs");
+const fs=require("fs"),
+    fetch=require("node-fetch"),
+    {initServer}=require("./init");
+// const config = require("../../config");
 module.exports=svr=>{
-const {db,pr,parseNumber}=svr.locals;
+const {db,config,pr,parseNumber}=svr.locals;
 var rt=require("express").Router();
 rt.post("/admin/servers/add",async(req,res)=>{
     var {sid,name,data,top,status}=req.body;
@@ -24,16 +27,10 @@ rt.post("/admin/servers/:sid/del",async(req,res)=>{
     res.json(pr(1,'删除成功'));
 });
 rt.post("/admin/servers/:sid/init",async(req,res)=>{
-    var {sid}=req.params;    
-    res.json(await initServer(sid));
-});
-rt.post("/admin/servers/:sid/restore",async(req,res)=>{
-    var {sid}=req.params;
-    res.json(await backend.restoreServer(sid));
-});
-rt.post("/admin/servers/:sid/action",async(req,res)=>{
-    var {sid}=req.params,{opt}=req.body;
-    res.json(await backend.action(sid,opt));
+    var {sid}=req.params,
+        server=db.servers.get(sid);
+    var neko_status_url=config.neko_status_url||config.site.url+'/get-neko-status';
+    res.json(await initServer(server,neko_status_url));
 });
 rt.get("/admin/servers",(req,res)=>{
     res.render("admin/servers",{
