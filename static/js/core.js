@@ -5,9 +5,6 @@ function copy(text){
     x.remove();
     mdui.snackbar({message: "复制成功",position: "top"});
 }
-function notmail(email){return !/^\S+@\S+\.\S{2,}$/.test(email);}
-function hascn(str){return /.*[\u4e00-\u9fa5]+.*$/.test(str);}
-
 function E(id){return document.getElementById(id);}
 function V(id){return E(id).value;}
 

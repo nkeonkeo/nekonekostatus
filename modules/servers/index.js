@@ -1,7 +1,7 @@
 "use strict";
 const fs=require("fs"),
     fetch=require("node-fetch"),
-    {initServer}=require("./init");
+    {initServer,updateServer}=require("./func");
 // const config = require("../../config");
 module.exports=svr=>{
 const {db,config,pr,parseNumber}=svr.locals;
@@ -26,11 +26,16 @@ rt.post("/admin/servers/:sid/del",async(req,res)=>{
     db.servers.del(sid);
     res.json(pr(1,'删除成功'));
 });
+var neko_status_url=config.neko_status_url||config.site.url+'/get-neko-status';
 rt.post("/admin/servers/:sid/init",async(req,res)=>{
     var {sid}=req.params,
-        server=db.servers.get(sid);
-    var neko_status_url=config.neko_status_url||config.site.url+'/get-neko-status';
+        server=db.servers.get(sid);    
     res.json(await initServer(server,neko_status_url));
+});
+rt.post("/admin/servers/:sid/update",async(req,res)=>{
+    var {sid}=req.params,
+        server=db.servers.get(sid);
+    res.json(await updateServer(server,neko_status_url));
 });
 rt.get("/admin/servers",(req,res)=>{
     res.render("admin/servers",{

@@ -84,6 +84,7 @@
     <div class="mdui-card-actions">
         {%block actions%}
         <button class="btn mdui-btn mdui-btn-dense mdui-btn-raised mdui-color-blue mdui-text-color-white" onclick="init()" mdui-tooltip="{content:'安装探针'}">安装</button>
+        <button class="btn mdui-btn mdui-btn-dense mdui-btn-raised mdui-color-green mdui-text-color-white" onclick="update()" mdui-tooltip="{content:'更新探针后端'}">更新</button>
         {%endblock%}
     </div>
 </div>
@@ -131,6 +132,12 @@ async function del(){
 async function init(){
     startloading();
     var res=await postjson(`./init`);
+    notice(res.data);
+    endloading();
+}
+async function update(){
+    startloading();
+    var res=await postjson(`./update`);
     notice(res.data);
     endloading();
 }

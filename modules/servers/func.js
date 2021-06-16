@@ -24,6 +24,14 @@ systemctl enable nekonekostatus`
     await ssh.Exec(server.data.ssh,sh);
     return {status:1,data:"安装成功"};
 }
+async function updateServer(server,neko_status_url){
+    var sh=
+`rm -f /usr/bin/neko-status
+wget ${neko_status_url} -O /usr/bin/neko-status
+chmod +x /usr/bin/neko-status`
+    await ssh.Exec(server.data.ssh,sh);
+    return {status:1,data:"更新成功"};
+}
 module.exports={
-    initServer
+    initServer,updateServer,
 }
