@@ -5,3 +5,4 @@ work.js
 neko-status/neko-status
 modules/servers/neko-status
 tokens.json
+log/*.log
