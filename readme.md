@@ -40,7 +40,7 @@ npm install
 
 `node nekonekostatus.js` 即可运行
 
-后台常驻, 请先安装`forever`(`npm intall forever -g`),然后: `forever start nekonekostatus.js`
+后台常驻, 请先安装`forever`(`npm install forever -g`),然后: `forever start nekonekostatus.js`
 
 https请使用nginx等反代
 
