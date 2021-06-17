@@ -26,6 +26,8 @@ n latest
 
 ---
 
+克隆仓库并安装所需第三方包
+
 ```bash
 git clone https://github.com/nkeonkeo/nekonekostatus.git
 cd nekonekostatus
