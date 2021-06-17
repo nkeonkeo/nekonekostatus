@@ -8,4 +8,5 @@ noCache:false,
 admin:{
     password:"nekonekocloud"
 },
+neko_status_url:"https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status"
 }
