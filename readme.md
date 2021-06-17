@@ -38,7 +38,7 @@ npm install
 
 复制`config.js.example`到`config.js`,并根据注释编辑配置
 
-`node nekonekorelay.js` 即可运行
+`node nekonekostatus.js` 即可运行
 
 后台常驻, 请先安装`forever`(`npm intall forever -g`),然后: `forever start nekonekostatus.js`
 
