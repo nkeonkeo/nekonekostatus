@@ -9,7 +9,7 @@
 centos: 
 
 ```bash
-yum install centos-release-scl -y
+yum install epel-release centos-release-scl -y
 yum install nodejs devtoolset-8-gcc* -y
 scl enable devtoolset-8 bash
 npm install n -g
