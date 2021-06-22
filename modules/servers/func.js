@@ -1,7 +1,8 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`/usr/bin/neko-status -v||(wget ${neko_status_url} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status)
+`wget --version||yum install wget -y||apt-get install wget -y
+/usr/bin/neko-status -v||(wget ${neko_status_url} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status)
 systemctl stop nekonekostatus
 mkdir /etc/neko-status/
 echo "key: ${server.data.api.key}
