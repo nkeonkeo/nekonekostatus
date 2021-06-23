@@ -5,7 +5,7 @@
 ## 一键脚本
 
 ```bash
-wget https://github.com/nkeonkeo/nekonekostatus/blob/main/install.sh && bash install.sh
+wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh && bash install.sh
 ```
 
 ## 手动安装
