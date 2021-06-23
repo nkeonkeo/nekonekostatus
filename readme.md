@@ -4,6 +4,8 @@
 
 ## 一键脚本
 
+请先安装`wget`
+
 ```bash
 wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh && bash install.sh
 ```
