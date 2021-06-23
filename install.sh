@@ -3,6 +3,9 @@ yum install epel-release centos-release-scl git -y && yum install nodejs devtool
 apt-get install nodejs npm git -y 
 
 npm install n -g && n latest
+PATH="$PATH"
+npm install npm@latest -g
+PATH="$PATH"
 npm install forever -g
 cd /root/
 git clone https://github.com/nkeonkeo/nekonekostatus.git
