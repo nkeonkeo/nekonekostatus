@@ -2,11 +2,10 @@
 yum install epel-release centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y && scl enable devtoolset-8 bash
 apt-get install nodejs npm git -y 
 
-npm install n -g && n latest
-PATH="$PATH"
-npm install npm@latest -g
-PATH="$PATH"
-npm install forever -g
+npm install n -g;PATH="$PATH";
+n latest;PATH="$PATH"
+npm install npm@latest -g;PATH="$PATH"
+npm install forever -g;PATH="$PATH"
 cd /root/
 git clone https://github.com/nkeonkeo/nekonekostatus.git
 cd nekonekostatus
