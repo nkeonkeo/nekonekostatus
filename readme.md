@@ -2,7 +2,13 @@
 
 一个material design风格的探针
 
-## 安装
+## 一键脚本
+
+```bash
+wget https://github.com/nkeonkeo/nekonekostatus/blob/main/install.sh && bash install.sh
+```
+
+## 手动安装
 
 依赖: `nodejs`, `gcc/g++ version 8.x `
 
