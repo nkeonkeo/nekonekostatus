@@ -5,10 +5,11 @@ var {path=__dirname+'/db.db',cache}=setting;
 var DB=new Database(path);
 
 const {servers}=require("./servers")(DB);
-
+const {setting}=require("./setting")(DB);
 function getServers(){return servers.all();}
 return {
     DB,
     servers,getServers,
+    setting,
 };
 }
