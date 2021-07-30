@@ -42,19 +42,28 @@ async function getStat(server){
 async function update(server){
     var stat=-1;
     if(server.status==1)stat=await getStat(server);
-    if(stat==-1)delete stats[server.sid];
-    else stats[server.sid]={name:server.name,stat};
+    delete stats[server.sid]
+    if(stat==-1)return;
+    if(server.data.device){
+        var {total,delta}=stat.net.device[server.data.device];
+        stat.net.total=total;
+        stat.net.delta=delta;
+    }
+    stats[server.sid]={name:server.name,stat};
 }
-for(var server of db.servers.all())
-    if(server.status==1)stats[server.sid]={name:server.name,stat:null};
-setInterval(async()=>{
+async function get(){
     var s=new Set();
     for(var server of db.servers.all())
         if(server.status==1){
             update(server),s.add(server.sid);
             await sleep(300);
         }
-    for(var sid in stats)if(!s.has(sid))delete stats[sid];
-},3000);
+    for(var [sid,stat] of Object.entries(stats)){
+        delete stats[sid];
+        if(s.has(sid))stats[sid]=stat;
+    }
+}
+get();
+setInterval(get,3000);
 
 }

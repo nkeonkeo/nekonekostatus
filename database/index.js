@@ -4,12 +4,14 @@ module.exports=(conf={})=>{
 var {path=__dirname+'/db.db',cache}=conf;
 var DB=new Database(path);
 
-const {servers}=require("./servers")(DB);
-const {setting}=require("./setting")(DB);
+const {servers}=require("./servers")(DB),
+    {traffic,lt}=require("./traffic")(DB),
+    {setting}=require("./setting")(DB);
 function getServers(){return servers.all();}
 return {
     DB,
     servers,getServers,
+    traffic,lt,
     setting,
 };
 }

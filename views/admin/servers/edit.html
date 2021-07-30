@@ -31,7 +31,7 @@
 
         <br>
         <h3>SSH</h3>
-        <div class="mdui-row mdui-row-sm-4">            
+        <div class="mdui-row mdui-row-sm-4">
             <div class="mdui-col-xs-2 mdui-textfield">
                 <label class="mdui-textfield-label">域名/IP</label>
                 <input class="mdui-textfield-input" type="text" id='edit_ssh_host' value="{{server.data.ssh.host}}">
@@ -62,7 +62,10 @@
                     <i class="mdui-switch-icon"></i>
                 </label>
             </div>
-              
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">指定网卡 (默认统计全部)</label>
+                <input class="mdui-textfield-input" type="text" id='edit_device' value="{{server.data.device}}" placeholder="eth0">
+            </div>
             <div class="mdui-col mdui-textfield">
                 <label class="mdui-textfield-label">通讯秘钥</label>
                 <input class="mdui-textfield-input" type="text" id='edit_api_key' value="{{server.data.api.key}}">
@@ -111,9 +114,9 @@ async function edit(){
             mode:E('edit_api_mode').checked,
             key:V('edit_api_key'),
             port:Number(V('edit_api_port')),
-        }
+        },
+        device:V('edit_device'),
     };
-    console.log({sid,name,data,top,status})
     var res=await postjson(`./edit`,{sid,name,data,top,status});
     endloading();
     notice(res.data);

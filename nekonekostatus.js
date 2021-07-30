@@ -71,8 +71,15 @@ svr.locals={
 fs.readdirSync(__dirname+'/modules',{withFileTypes:1}).forEach(file=>{
     if(!file.isDirectory())return;
     try{require(`./modules/${file.name}/index.js`)(svr);}catch(e){console.log(e)}
-})
+});
+schedules();
 const port=process.env.PORT||config.port,host=process.env.HOST||'';
 svr.server=svr.listen(port,host,()=>{
     console.log(`server running @ http://${host ? host : 'localhost'}:${port}`);
 });
+
+function schedules(){
+    schedule.scheduleJob({minute:0,second:0},()=>{db.traffic.shift_hs();db.server_traffic.shift_hs();});
+    schedule.scheduleJob({hour:4,minute:0,second:3},()=>{db.traffic.shift_ds();db.server_traffic.shift_ds();});
+    schedule.scheduleJob({date:1,hour:4,minute:0,second:4},()=>{db.traffic.shift_ms();db.server_traffic.shift_ms();});
+}
