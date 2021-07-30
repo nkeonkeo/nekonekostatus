@@ -15,6 +15,7 @@ svr.get("/stats/:sid",(req,res)=>{
     var {sid}=req.params,node=stats[sid];
     res.render('stat',{
         sid,node,
+        traffic:db.traffic.get(sid),
         admin:req.admin
     });
 });
@@ -43,7 +44,7 @@ async function update(server){
     var stat=-1;
     if(server.status==1)stat=await getStat(server);
     if(stat==-1){delete stats[server.sid];return;}
-    if(server.data.device){
+    if(server.data.device&&stat){
         var device=stat.net.devices[server.data.device];
         if(device){
             stat.net.total=device.total;
@@ -64,6 +65,21 @@ async function get(){
         if(s.has(sid))stats[sid]=stat;
     }
 }
+function calc(){
+    for(var server of db.servers.all()){
+        var {sid}=server,stat=stats[sid];
+        if(!stat||!stat.stat||stat.stat==-1)continue;
+        var ni=stat.stat.net.total.in,
+            no=stat.stat.net.total.out,
+            t=db.lt.get(sid)||db.lt.ins(sid);
+        var ti=ni<t.traffic[0]?ni:ni-t.traffic[0],
+            to=no<t.traffic[1]?no:no-t.traffic[1];
+        db.lt.set(sid,[ni,no]);
+        db.traffic.add(sid,[ti,to]);
+    }
+}
 get();
 setInterval(get,3000);
+sleep(10000).then(calc);
+setInterval(calc,60*1000);
 }

@@ -1,0 +1,24 @@
+<div class="mdui-panel mt" mdui-panel>
+    <div class="mdui-panel-item mdui-panel-item-open">
+        <textarea id='traffic_data' hidden>{{traffic|dump}}</textarea>
+        <div class="mdui-panel-item-header">
+            <div class="mdui-panel-item-title">流量使用情况</div>
+            <div class="mdui-panel-item-summary" id='hs_tot'></div>
+            <div class="mdui-panel-item-summary" id='ds_tot'></div>
+            <div class="mdui-panel-item-summary" id='ms_tot'></div>
+            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <div class="mdui-panel-item-body">
+            <div class="mdui-tab mdui-tab-full-width" mdui-tab>
+                <a href="#traffic-hs" class="mdui-ripple">过去24小时</a>
+                <a href="#traffic-ds" class="mdui-ripple">过去31天</a>
+                <a href="#traffic-ms" class="mdui-ripple">过去12个月</a>
+            </div>
+            <div id="traffic-ds" class="mdui-p-a-2"><canvas id="ds" height="100"></canvas></div>
+            <div id="traffic-ms" class="mdui-p-a-2"><canvas id="ms" height="100"></canvas></div>
+            <div id="traffic-hs" class="mdui-p-a-2"><canvas id="hs" height="100"></canvas></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script src="/js/traffic.js"></script>
+    </div>
+</div>

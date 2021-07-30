@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict"
 const express=require('express'),
     bp=require('body-parser'),
@@ -79,7 +80,7 @@ svr.server=svr.listen(port,host,()=>{
 });
 
 function schedules(){
-    schedule.scheduleJob({minute:0,second:0},()=>{db.traffic.shift_hs();db.server_traffic.shift_hs();});
-    schedule.scheduleJob({hour:4,minute:0,second:3},()=>{db.traffic.shift_ds();db.server_traffic.shift_ds();});
-    schedule.scheduleJob({date:1,hour:4,minute:0,second:4},()=>{db.traffic.shift_ms();db.server_traffic.shift_ms();});
+    schedule.scheduleJob({minute:0,second:0},()=>{db.traffic.shift_hs();});
+    schedule.scheduleJob({hour:4,minute:0,second:3},()=>{db.traffic.shift_ds();});
+    schedule.scheduleJob({date:1,hour:4,minute:0,second:4},()=>{db.traffic.shift_ms();});
 }
