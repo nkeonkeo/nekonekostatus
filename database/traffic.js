@@ -51,7 +51,7 @@ const lt={
     ins(sid,traffic=0){
         this._ins.run(sid,traffic);
         return {sid,traffic};
-    },_ins:DB.prepare(`INSERT INTO lt (,sid,traffic) VALUES (?,?)`),
+    },_ins:DB.prepare(`INSERT INTO lt (sid,traffic) VALUES (?,?)`),
     get(sid){return this._get.get(sid);},_get:DB.prepare(`SELECT * FROM lt WHERE sid=?`),
     set(sid,traffic){return this._set.run(traffic,sid);},_set:DB.prepare(`UPDATE lt SET traffic=? WHERE sid=?`),
     del(sid){this._del.run(sid);},_del:DB.prepare(`DELETE FROM lt WHERE sid=?`),
