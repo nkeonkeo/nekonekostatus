@@ -4,7 +4,7 @@ const fetch=require("node-fetch"),
 function sleep(ms){return new Promise(resolve=>setTimeout(()=>resolve(),ms));};
 module.exports=async(svr)=>{
 const {db,pr}=svr.locals;
-var stats={};
+var stats={},fails={};
 svr.get("/",(req,res)=>{
     res.render('stats',{
         stats,
@@ -44,9 +44,14 @@ async function getStat(server){
     else return false;
 }
 async function update(server){
-    var stat=-1;
+    var {sid}=server,stat=-1;
     if(server.status==1)stat=await getStat(server);
-    if(stat==-1){delete stats[server.sid];return;}
+    if(stat==-1){
+        fails[sid]=(fails[sid]||0)+1;
+        if(fails[sid]>3)delete stats[sid];
+        return;
+    }
+    fails[sid]=0;
     if(server.data.device&&stat){
         var device=stat.net.devices[server.data.device];
         if(device){
@@ -54,7 +59,7 @@ async function update(server){
             stat.net.delta=device.delta;
         }
     }
-    stats[server.sid]={name:server.name,stat};
+    stats[sid]={name:server.name,stat};
 }
 async function get(){
     var s=new Set();
