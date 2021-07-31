@@ -18,16 +18,20 @@ var hsChart=new Chart(document.getElementById('hs').getContext('2d'),{
         datasets: [{
             label: 'in (GB)',
             backgroundColor: '#f7a4b980',
-            borderColor: '#f15079',            
+            borderColor: '#f15079bf',            
             data:idata
         },{
             label: 'out (GB)',
             backgroundColor: '#66ccff80',
-            borderColor: '#0099ff',
+            borderColor: '#0099ffbf',
             data:odata
         }]
     },
-    options: {}// Configuration options go here
+    options: {
+        scales:{
+            y:{min:0}
+        }
+    }// Configuration options go here
 });
 idata=[],odata=[];
 for(var [i,o] of traffic.ds){
@@ -46,16 +50,20 @@ var dsChart=new Chart(document.getElementById('ds').getContext('2d'),{
         datasets: [{
             label: 'in (GB)',
             backgroundColor: '#f7a4b980',
-            borderColor: '#f15079',            
+            borderColor: '#f15079bf',            
             data:idata
         },{
             label: 'out (GB)',
             backgroundColor: '#66ccff80',
-            borderColor: '#0099ff',
+            borderColor: '#0099ffbf',
             data:odata
         }]
     },
-    options: {}// Configuration options go here
+    options: {
+        scales:{
+            y:{min:0}
+        }
+    }// Configuration options go here
 });
 idata=[],odata=[];
 for(var [i,o] of traffic.ms){
@@ -74,16 +82,20 @@ var msChart=new Chart(document.getElementById('ms').getContext('2d'),{
         datasets: [{
             label: 'in (GB)',
             backgroundColor: '#f7a4b980',
-            borderColor: '#f15079',            
+            borderColor: '#f15079bf',            
             data:idata
         },{
             label: 'out (GB)',
             backgroundColor: '#66ccff80',
-            borderColor: '#0099ff',
+            borderColor: '#0099ffbf',
             data:odata
         }]
     },
-    options: {}// Configuration options go here
+    options: {
+        scales:{
+            y:{min:0}
+        }
+    }// Configuration options go here
 });
 document.getElementById('hs_tot').innerText=`${(hs_tot/G).toFixed(2)}G(24小时)`;
 document.getElementById('ds_tot').innerText=`${(ds_tot/G).toFixed(2)}G(31天)`;

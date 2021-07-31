@@ -101,7 +101,6 @@ func GetStat() (map[string]interface{}, error) {
 		return nil, err
 	}
 	res["host"] = host
-	cpu.Info()
 
 	return res, nil
 }

@@ -7,7 +7,7 @@ function strB(b){
 }
 var mem_tooltip=new mdui.Tooltip(`#MEM_item`,{}),
     host_tooltip=new mdui.Tooltip(`#host`,{});
-setInterval(async()=>{
+async function get(){
     var node=await fetch("./data").then(res=>res.json());
     if(!node||node.stat==-1)return;
     var {cpu,mem,net,host}=node.stat;
@@ -46,4 +46,6 @@ setInterval(async()=>{
 启动: ${new Date(host.bootTime*1000).toLocaleString()}
 在线: ${(host.uptime/86400).toFixed(2)}天`;
     host_tooltip.$element[0].innerText=content;
-},1000);
+}
+get()
+setInterval(get,3000);

@@ -1,5 +1,6 @@
 "use strict";
-const fetch=require("node-fetch");
+const fetch=require("node-fetch"),
+    schedule=require("node-schedule");
 function sleep(ms){return new Promise(resolve=>setTimeout(()=>resolve(),ms));};
 module.exports=async(svr)=>{
 const {db,pr}=svr.locals;
@@ -16,6 +17,8 @@ svr.get("/stats/:sid",(req,res)=>{
     res.render('stat',{
         sid,node,
         traffic:db.traffic.get(sid),
+        load_m:db.load_m.select(sid),
+        load_h:db.load_h.select(sid),
         admin:req.admin
     });
 });
@@ -82,4 +85,33 @@ get();
 setInterval(get,3000);
 sleep(10000).then(calc);
 setInterval(calc,60*1000);
+
+schedule.scheduleJob({second:0},()=>{
+    for(var {sid} of db.servers.all()){
+        var cpu=-1,mem=-1,swap=-1,ibw=-1,obw=-1;
+        var stat=stats[sid];
+        if(stat&&stat.stat&&stat.stat!=-1){
+            cpu=stat.stat.cpu.multi*100;
+            mem=stat.stat.mem.virtual.usedPercent;
+            swap=stat.stat.mem.swap.usedPercent;
+            ibw=stat.stat.net.delta.in;
+            obw=stat.stat.net.delta.out;
+        }
+        db.load_m.shift(sid,{cpu,mem,swap,ibw,obw});
+    }
+});
+schedule.scheduleJob({minute:0,second:1},()=>{
+    db.traffic.shift_hs();
+    for(var {sid} of db.servers.all()){
+        var Cpu=0,Mem=0,Swap=0,Ibw=0,Obw=0,tot=0;
+        for(var {cpu,mem,swap,ibw,obw} of db.load_m.select(sid))if(cpu!=-1){
+            ++tot;
+            Cpu+=cpu,Mem+=mem,Swap+=swap,Ibw+=ibw,Obw+=obw;
+        }
+        if(tot==0)db.load_h.shift(sid,{cpu:-1,mem:-1,swap:-1,ibw:-1,obw:-1});
+        else db.load_h.shift(sid,{cpu:Cpu/tot,mem:Mem/tot,swap:Swap/tot,ibw:Ibw/tot,obw:Obw/tot});
+    }
+});
+schedule.scheduleJob({hour:4,minute:0,second:2},()=>{db.traffic.shift_ds();});
+schedule.scheduleJob({date:1,hour:4,minute:0,second:3},()=>{db.traffic.shift_ms();});
 }
