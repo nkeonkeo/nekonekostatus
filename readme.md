@@ -10,6 +10,12 @@
 
 ## Docker
 
+```bash
+docker run --restart=on-failure --name nekonekostatus -p 5555:5555 -d nkeonkeo/nekonekostatus:v1.0
+```
+
+访问目标ip 5555端口即可,`5555:5555`可改成任意其他端口，如`2333:5555`
+
 ## 一键脚本
 
 请先安装`wget`
@@ -76,3 +82,29 @@ https请使用nginx等反代
 |被动通讯端口|被动通讯端口|`10086`|
 
 填写ssh保存后即可一键安装/更新后端 (更新后要重新点一下安装)
+
+## 手动安装被控
+
+```bash
+wget --version||yum install wget -y||apt-get install wget -y
+/usr/bin/neko-status -v||(wget 被控下载地址 -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status)
+systemctl stop nekonekostatus
+mkdir /etc/neko-status/
+echo "key: 通讯秘钥
+port: 通讯端口
+debug: false" > /etc/neko-status/config.yaml
+systemctl stop nekonekostatus
+echo "[Unit]
+Description=nekonekostatus
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/neko-status -c /etc/neko-status/config.yaml
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nekonekostatus.service
+systemctl daemon-reload
+systemctl start nekonekostatus
+systemctl enable nekonekostatus
+```
