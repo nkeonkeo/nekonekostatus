@@ -1,6 +1,14 @@
 ## NekoNekoStatus
 
-一个material design风格的探针
+一个Material Design风格的服务器探针
+
+- 默认密码: `nekonekostatus`
+- 默认端口: 5555
+- 默认被控下载地址: https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status
+
+安装后务必修改密码！
+
+## Docker
 
 ## 一键脚本
 
@@ -12,13 +20,13 @@ wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh && bash inst
 
 ## 手动安装
 
-依赖: `nodejs`, `gcc/g++ version 8.x `
+依赖: `nodejs`, `gcc/g++ version 8.x `, `git`
 
 centos: 
 
 ```bash
 yum install epel-release centos-release-scl -y
-yum install nodejs devtoolset-8-gcc* -y
+yum install nodejs devtoolset-8-gcc* git -y
 scl enable devtoolset-8 bash
 npm install n -g
 n latest
@@ -27,8 +35,9 @@ n latest
 debian/ubuntu:
 
 ```
-apt-get install nodejs npm -y
+apt-get install nodejs npm git -y
 npm install n -g
+scl enable devtoolset-8 bash
 n latest
 ```
 
@@ -57,7 +66,7 @@ https请使用nginx等反代
 |变量名|含义|示例|
 |-|-|-|
 |`sid`|服务器id|`b82cbe8b-1769-4dc2-b909-5d746df392fb`|
-|`name`|服务器名称|`江门移动`|
+|`name`|服务器名称|`localhost`|
 |`TOP`|置顶优先级|`1`|
 |域名/IP|域名/IP|`127.0.0.1`|
 |端口(可选)|ssh端口|`22`|

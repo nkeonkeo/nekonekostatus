@@ -1,7 +1,8 @@
-FROM node:latest
+FROM node:16 as build
 
 WORKDIR /app
-COPY package.json .
+COPY . ./
 RUN npm install --registry=https://registry.npm.taobao.org
-COPY . .
+FROM node:16-alpine
+COPY --from=build /app /
 CMD [ "node", "nekonekostatus.js" ]
