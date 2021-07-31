@@ -144,5 +144,11 @@ async function update(){
     notice(res.data);
     endloading();
 }
+document.addEventListener("keydown", (e)=>{
+    if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+        e.preventDefault();
+        edit();
+    }
+}, false);
 </script>
 {%endblock%}

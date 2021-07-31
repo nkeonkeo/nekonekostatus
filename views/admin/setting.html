@@ -1,0 +1,86 @@
+{% set title = "管理设置" %}
+{%set admin = true%}
+{% extends "../base.html" %}
+{%block content%}
+<div class="mdui-card mt">
+    <textarea id="setting_data" hidden>{{setting|dump}}</textarea>
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">设置</div>
+        <div class="mdui-card-primary-subtitle">setting</div>
+    </div>
+    <div class="mdui-card-content">
+        <div class="mdui-row mdui-row-md-2">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">监听端口</label>
+                <input class="mdui-textfield-input" type="number" value="{{setting.listen}}" key="listen">
+            </div>
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">管理密码</label>
+                <input class="mdui-textfield-input" type="password" value="{{setting.password}}" key="password">
+            </div>
+        </div>
+        <div class="mdui-row mdui-row-md-2">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">站点名称</label>
+                <input class="mdui-textfield-input" type="text" value="{{setting.site.name}}" key="site.name">
+            </div>
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">站点网址</label>
+                <input class="mdui-textfield-input" type="text" value="{{setting.site.url}}" key="site.url">
+            </div>
+        </div>
+        <div class="mdui-row">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">neko-status 下载地址</label>
+                <input class="mdui-textfield-input" type="text" value="{{setting.neko_status_url}}" key="neko_status_url">
+            </div>
+        </div>
+        <label class="mdui-checkbox">
+            <input type="checkbox" type="text" {%if setting.debug%}checked{%endif%} key="debug">
+            <i class="mdui-checkbox-icon"></i>调试
+        </label>
+    </div>
+</div>
+<div class="mdui-fab-wrapper">
+    <button class="mdui-fab mdui-ripple mdui-color-theme-accent" onclick="edit()">
+        <i class="mdui-icon material-icons">save</i>
+    </button>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+async function edit(){
+    var setting={};
+    function gen(x,keys,val){
+        if(keys.length==0)return;
+        var key=keys[0];
+        keys.shift();
+        if(keys.length==0)x[key]=val;
+        else{            
+            if(!x[key])x[key]={};            
+            gen(x[key],keys,val)
+        };
+    }
+    for(var x of document.querySelectorAll("[key]")){
+        var val=x.value;
+        if(x.type=="number")val=Number(x.value);
+        if(x.type=="checkbox")val=x.checked;
+        gen(setting,x.getAttribute("key").split('.'),val);
+    }
+    console.log(setting);
+    for(var [key,val] of Object.entries(JSON.parse(V("setting_data"))))
+        if(setting[key]==val)delete setting[key];
+    startloading();
+    var res=await postjson(`/admin/setting`,setting);
+    endloading();
+    notice(res.data);
+}
+document.addEventListener("keydown", (e)=>{
+    if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+        e.preventDefault();
+        edit();
+    }
+}, false);
+</script>
+{%endblock%}

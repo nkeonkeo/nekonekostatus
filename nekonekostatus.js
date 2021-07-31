@@ -9,8 +9,7 @@ const express=require('express'),
 const core=require("./core"),
     db=require("./database")({cache:true}),
     {pr,md5,uuid}=core;
-var config=require('./config');
-
+var setting=db.setting.all();
 var svr=express();
 
 svr.use(bp.urlencoded({extended: false}));
@@ -25,7 +24,7 @@ svr.set('view engine', 'html');
 var env=nunjucks.configure('views', {
     autoescape: true,
     express: svr,
-    watch:config.noCache,
+    watch:setting.debug,
 });
 var admin_tokens=new Set();
 try{for(var token of require("./tokens.json"))admin_tokens.add(token);}catch{}
@@ -44,7 +43,7 @@ svr.get('/login',(req,res)=>{
 });
 svr.post('/login',(req,res)=>{
     var {password}=req.body;
-    if(password==md5(config.admin.password)){
+    if(password==md5(db.setting.get("password"))){
         var token=uuid.v4();
         admin_tokens.add(token);
         res.cookie("token",token);
@@ -61,10 +60,9 @@ svr.all('/admin*',(req,res,nxt)=>{
     if(req.admin)nxt();
     else res.redirect('/login');
 })
-
-svr.config=config;
+svr.setting=setting;
 svr.locals={
-    config,
+    setting,
     db,
     ...core,
 };
@@ -73,7 +71,5 @@ fs.readdirSync(__dirname+'/modules',{withFileTypes:1}).forEach(file=>{
     if(!file.isDirectory())return;
     try{require(`./modules/${file.name}/index.js`)(svr);}catch(e){console.log(e)}
 });
-const port=process.env.PORT||config.port,host=process.env.HOST||'';
-svr.server=svr.listen(port,host,()=>{
-    console.log(`server running @ http://${host ? host : 'localhost'}:${port}`);
-});
+const port=process.env.PORT||db.setting.get("listen"),host=process.env.HOST||'';
+svr.server=svr.listen(port,host,()=>{console.log(`server running @ http://${host ? host : 'localhost'}:${port}`);})

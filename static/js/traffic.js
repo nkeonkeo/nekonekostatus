@@ -31,7 +31,7 @@ var hsChart=new Chart(document.getElementById('hs').getContext('2d'),{
         scales:{
             y:{min:0}
         }
-    }// Configuration options go here
+    }
 });
 idata=[],odata=[];
 for(var [i,o] of traffic.ds){
@@ -63,7 +63,7 @@ var dsChart=new Chart(document.getElementById('ds').getContext('2d'),{
         scales:{
             y:{min:0}
         }
-    }// Configuration options go here
+    }
 });
 idata=[],odata=[];
 for(var [i,o] of traffic.ms){
@@ -95,7 +95,7 @@ var msChart=new Chart(document.getElementById('ms').getContext('2d'),{
         scales:{
             y:{min:0}
         }
-    }// Configuration options go here
+    }
 });
 document.getElementById('hs_tot').innerText=`${(hs_tot/G).toFixed(2)}G(24小时)`;
 document.getElementById('ds_tot').innerText=`${(ds_tot/G).toFixed(2)}G(31天)`;

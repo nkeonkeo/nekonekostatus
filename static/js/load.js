@@ -37,7 +37,7 @@ new Chart(document.getElementById('load-m').getContext('2d'),{
         scales:{
             y:{min:0,max:100}
         }
-    }// Configuration options go here
+    }
 });
 new Chart(document.getElementById('load-m-bw').getContext('2d'),{
     type: 'line',
@@ -59,7 +59,7 @@ new Chart(document.getElementById('load-m-bw').getContext('2d'),{
         scales:{
             y:{min:0}
         }
-    }// Configuration options go here
+    }
 });
 
 var load_h=JSON.parse(document.getElementById('load_h_data').value);
@@ -100,7 +100,7 @@ new Chart(document.getElementById('load-h').getContext('2d'),{
         scales:{
             y:{min:0,max:100}
         }
-    }// Configuration options go here
+    }
 });
 new Chart(document.getElementById('load-h-bw').getContext('2d'),{
     type: 'line',
@@ -122,5 +122,5 @@ new Chart(document.getElementById('load-h-bw').getContext('2d'),{
         scales:{
             y:{min:0}
         }
-    }// Configuration options go here
+    }
 });
