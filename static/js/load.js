@@ -11,10 +11,11 @@ for(var {cpu,mem,swap,ibw,obw} of load_m){
 var labels=[];
 for(var i=0,time=new Date();i<60;time.setMinutes(time.getMinutes()-1),++i)
     labels.push(time.Format('HH:mm'));
+labels.reverse();
 new Chart(document.getElementById('load-m').getContext('2d'),{
     type: 'line',
     data: {
-        labels: labels.reverse(),
+        labels: labels,
         datasets: [{
             label: 'CPU (%)',
             backgroundColor: '#66ccff4d',
@@ -42,7 +43,7 @@ new Chart(document.getElementById('load-m').getContext('2d'),{
 new Chart(document.getElementById('load-m-bw').getContext('2d'),{
     type: 'line',
     data: {
-        labels: labels.reverse(),
+        labels,
         datasets: [{
             label: 'in (Mbps)',
             backgroundColor: '#f7a4b94d',
@@ -74,10 +75,11 @@ for(var {cpu,mem,swap,ibw,obw} of load_h){
 labels=[];
 for(var i=0,time=new Date();i<24;time.setHours(time.getHours()-1),++i)
     labels.push(time.Format('HH:00'));
+labels.reverse();
 new Chart(document.getElementById('load-h').getContext('2d'),{
     type: 'line',
     data: {
-        labels: labels.reverse(),
+        labels,
         datasets: [{
             label: 'CPU (%)',
             backgroundColor: '#66ccff4d',
@@ -105,7 +107,7 @@ new Chart(document.getElementById('load-h').getContext('2d'),{
 new Chart(document.getElementById('load-h-bw').getContext('2d'),{
     type: 'line',
     data: {
-        labels: labels.reverse(),
+        labels,
         datasets: [{
             label: 'in (Mbps)',
             backgroundColor: '#f7a4b94d',
