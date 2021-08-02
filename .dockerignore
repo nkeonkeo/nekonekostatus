@@ -2,3 +2,5 @@ node_modules
 *.db
 package-lock.json
 token.json
+.git
+neko-status
