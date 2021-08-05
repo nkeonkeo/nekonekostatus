@@ -35,6 +35,16 @@
                 <input class="mdui-textfield-input" type="text" value="{{setting.neko_status_url}}" key="neko_status_url">
             </div>
         </div>
+        <div class="mdui-row mdui-row-md-2">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">telegram通知 bot token</label>
+                <input class="mdui-textfield-input" type="text" value="{{setting.bot.token}}" key="bot.token">
+            </div>
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">通知chat id列表(用,分割)</label>
+                <input class="mdui-textfield-input" type="text" value="{{setting.bot.chatIds}}" key="bot.chatIds">
+            </div>
+        </div>
         <label class="mdui-checkbox">
             <input type="checkbox" type="text" {%if setting.debug%}checked{%endif%} key="debug">
             <i class="mdui-checkbox-icon"></i>调试
