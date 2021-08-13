@@ -20,6 +20,7 @@ svr.use(express.static("./static"));
 
 svr.engine('html', nunjucks.render);
 svr.set('view engine', 'html');
+require('express-ws')(svr);
 
 var env=nunjucks.configure('views', {
     autoescape: true,
@@ -60,7 +61,6 @@ svr.all('/admin*',(req,res,nxt)=>{
     if(req.admin)nxt();
     else res.redirect('/login');
 })
-svr.setting=setting;
 svr.locals={
     setting,
     db,

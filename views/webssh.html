@@ -1,0 +1,101 @@
+<div class="mdui-dialog" id="webSSHdialog">
+    <div class="mdui-dialog-title" id="webSSHdialogT">{{node.name}}</div>
+    <div class="mdui-dialog-content" id="webSSHdialogC">
+        <div id="terminal"></div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn btn mdui-color-blue-grey mdui-text-color-white mdui-float-left" mdui-menu="{target: '#ssh-scripts'}">脚本片段</button>
+        <ul class="mdui-menu mdui-menu-cascade mdui-text-left" id="ssh-scripts">
+            {%for script in db.ssh_scripts.all()%}
+            <li class="mdui-menu-item" onclick="ssh_script('{{script.id}}')">
+                <a>{{script.name}}</a>
+            </li>
+            {%endfor%}
+        </ul>
+        <button class="mdui-btn btn mdui-color-blue mdui-text-color-white" onclick="connect()">连接</button>
+        <button class="mdui-btn btn mdui-color-red mdui-text-color-white" onclick="dispose()">关闭</button>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.13.0/css/xterm.css">
+    <!-- <script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.13.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.4.0/lib/xterm-addon-web-links.js"></script>
+    <script>async function ssh_script(id){
+        var res=await postjson("/admin/ssh_scripts/get",{id});
+        console.log(res);
+        socket.send(res.data.content);
+    }</script>
+</div>
+<script>
+var webSSHdialog=new mdui.Dialog("#webSSHdialog"),
+    term=null,socket=null,
+    route=`/admin/servers/{{sid}}/ws-ssh/`;
+function resize(){
+    term.FitAddon.fit();
+    // socket.emit("resize",{cols:term.cols,rows:term.rows});
+}
+function connect(){
+    if(socket&&socket.readyState==1)return;
+    startloading();
+    socket=new WebSocket(window.location.origin.replace('http','ws')+route+JSON.stringify({
+        cols:term.cols,
+        rows:term.rows,
+    }));
+    socket.addEventListener('open',(e)=>{
+        endloading();
+        resize();
+        window.addEventListener('resize',resize,false);
+        term.focus();
+    })
+    socket.addEventListener('message',(e)=>{term.write(e.data.toString());});
+    socket.addEventListener('close',(ev)=>{});
+    socket.addEventListener('error',(ev)=>{});
+}
+function dispose(){
+    socket.close();
+    webSSHdialog.close();
+}
+async function webssh(){
+    if(term){
+        webSSHdialog.open();
+        term.focus();
+        connect();
+        return;
+    }
+    var H=window.screen.availHeight*0.9,
+        W=document.body.clientWidth*0.9,
+        TH=H-48-68-52,TW=W-48;
+    console.log(H,W);
+    E('webSSHdialog').style.height=H+'px';
+    E('webSSHdialog').style.width=W+'px';
+    E('webSSHdialog').style.maxHeight=H+'px';
+    E('webSSHdialog').style.maxWidth=W+'px';
+    E('webSSHdialogC').style.height=H-52+'px';
+    E('webSSHdialogC').style.width=W+'px';
+    E('terminal').style.height=TH+'px';
+    E('terminal').style.width=TW+'px';
+    term=new Terminal({
+        cols:Math.floor(TW/8),
+        rows:Math.floor(TH/8),
+        cursorBlink: true,
+        cursorStyle: "underline",
+        scrollback: 1000,
+    });
+    webSSHdialog.open();
+    term.open(document.getElementById('terminal'));
+    term.FitAddon=new FitAddon.FitAddon();
+    term.loadAddon(term.FitAddon);
+    term.WebLinksAddon=new WebLinksAddon.WebLinksAddon();
+    term.loadAddon(term.WebLinksAddon);
+    term.onData(data=>{
+        if(socket.readyState!=1)return connect();
+        try{
+            socket.send(data);
+        } catch (e){
+            term.write('\r\nConnection lost, trying to connect again!\r\n');
+            connect();
+        }
+    });
+    connect();
+}
+</script>

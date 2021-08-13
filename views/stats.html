@@ -81,9 +81,20 @@
 </div>
 
 {%if admin%}
-<p>
-    <button class="mdui-btn mdui-btn-raised mdui-color-blue mdui-text-color-white btn" href="/admin/servers/add">新增服务器</button>
-</p>
+<div class="mdui-fab-wrapper" mdui-fab="{trigger: 'hover'}">
+    <button class="mdui-fab mdui-color-blue-grey-600">
+        <i class="mdui-icon material-icons">menu</i>
+        <i class="mdui-icon mdui-fab-opened material-icons">clear_all</i>
+    </button>
+    <div class="mdui-fab-dial">
+        <a class="mdui-fab mdui-fab-mini mdui-color-blue-a200" href="/admin/servers/add" mdui-tooltip="{content:'新增服务器'}">
+            <i class="mdui-icon material-icons">add</i>
+        </a>
+        <a class="mdui-fab mdui-fab-mini mdui-color-pink" href="/admin/ssh_scripts" mdui-tooltip="{content:'新增ssh代码片段'}">
+            <i class="mdui-icon material-icons">format_align_left</i>
+        </a>
+    </div>
+</div>
 {%endif%}
 {%endblock%}
 

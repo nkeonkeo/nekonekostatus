@@ -12,6 +12,7 @@
         <i class="mdui-icon material-icons" id="host">info_outline</i>
         {%if admin%}
         <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">edit</i></a>
+        <button onclick="webssh()"  class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">build</i></button>
         {%endif%}
     </div>
     <div class="mdui-card-content">
@@ -102,9 +103,9 @@
         </ul>
     </div>
 </div>
-
 {%endblock%}
 
 {%block js%}
 <script src="/js/stat.js"></script>
+{%include "./webssh.html"%}
 {%endblock%}

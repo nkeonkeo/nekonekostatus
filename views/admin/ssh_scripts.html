@@ -1,0 +1,115 @@
+{%set title = "脚本片段"%}
+{%set admin = true%}
+{%extends "../base.html"%}
+
+{%block content%}
+<div class="mdui-table-fluid mt">
+    <table class="mdui-table">
+        <thead><tr>
+            <th>名称</th><th>操作</th>
+        </tr></thead>
+        <tbody>
+        {%for script in ssh_scripts%}
+        <tr>
+            <td>{{script.name}}</td>
+            <td>
+                <button class="mdui-btn mdui-btn-icon" mdui-dialog="{target:'#edit_script_dialog'}" onclick="editScript('{{script.id}}')">
+                    <i class="mdui-icon material-icons">edit</i>
+                </button>
+                <button class="mdui-btn mdui-btn-icon" onclick="DelScript('{{script.id}}')">
+                    <i class="mdui-icon material-icons">delete</i>
+                </button>
+            </td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+</div>
+<div class="mdui-fab-wrapper" mdui-dialog="{target:'#add_script_dialog'}">
+    <button class="mdui-fab mdui-color-blue-600">
+        <i class="mdui-icon material-icons">add</i>
+    </button>
+</div>
+<!-- <p>
+<button class="mdui-btn mdui-btn-raised mdui-color-red mdui-text-color-white btn" mdui-dialog="{target:'#add_script_dialog'}">添加脚本片段</button>
+</p> -->
+<div class="mdui-dialog" id="add_script_dialog">
+    <div class="mdui-dialog-title">添加脚本片段</div>
+    <div class="mdui-dialog-content">
+        <div class="mdui-textfield">
+            <label class="mdui-textfield-label">名称</label>
+            <input class="mdui-textfield-input" type="text" id='add_script_name'>
+        </div>
+        <div class="mdui-textfield">
+            <label class="mdui-textfield-label">内容</label>
+            <textarea class="mdui-textfield-input" type="text" id='add_script_content'></textarea>
+        </div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-color-green mdui-text-color-white btn mdui-btn-dense" onclick="AddScript()">
+            确认添加<i class="mdui-icon mdui-cion-right material-icons">done_all</i>
+        </button>
+    </div>
+</div>
+<div class="mdui-dialog" id="edit_script_dialog">
+    <div class="mdui-dialog-title">编辑脚本片段</div>
+    <div class="mdui-dialog-content">
+        <input class="mdui-textfield-input" type="text" id='edit_script_id' hidden>
+        <div class="mdui-row">
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">名称</label>
+                <input class="mdui-textfield-input" type="text" id='edit_script_name'>
+            </div>
+            <div class="mdui-col mdui-textfield">
+                <label class="mdui-textfield-label">内容</label>
+                <textarea class="mdui-textfield-input" type="text" id='edit_script_content'></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-color-green mdui-text-color-white btn mdui-btn-dense" onclick="EditScript()">
+            确认修改<i class="mdui-icon mdui-cion-right material-icons">done_all</i>
+        </button>
+    </div>
+</div>
+{%endblock%}
+{%block js%}
+<script>
+async function AddScript(){
+    startloading();
+    var res=await postjson(`/admin/ssh_scripts/add`,{
+        name:V("add_script_name"),
+        content:V('add_script_content'),
+    });
+    endloading();
+    if(res.status){
+        notice("添加成功");
+        refreshPage();
+    }
+};
+async function DelScript(id){
+    startloading();
+    var res=await postjson(`/admin/ssh_scripts/del`,{id});
+    endloading();
+    notice(res.data);
+    if(res.status)refreshPage();
+};
+async function editScript(id){
+    E('edit_script_id').value=id;
+    var res=await postjson("/admin/ssh_scripts/get",{id});
+    E('edit_script_name').value=res.data.name;
+    E('edit_script_content').value=res.data.content;
+}
+async function EditScript(){
+    startloading();
+    var res=await postjson(`/admin/ssh_scripts/upd`,{
+        id:V('edit_script_id'),
+        name:V('edit_script_name'),
+        content:V('edit_script_content'),
+    });
+    endloading();
+    notice(res.data);
+    if(res.status)refreshPage();
+}
+</script>
+{%endblock%}

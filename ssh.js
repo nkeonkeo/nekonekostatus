@@ -1,50 +1,70 @@
 const {NodeSSH}=require('node-ssh');
-var defaultTimeout=10000;
+const SSHClient = require("ssh2").Client;
 async function ssh_con(key){
     if(!key.privateKey||key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=defaultTimeout;
-    key.tryKeyboard=true;
-    var ssh=new NodeSSH();
-    try{await ssh.connect(key);}
-    catch(e){return null;}
+    key.readyTimeout=10000;
+    try{
+        var ssh=new NodeSSH();
+        await ssh.connect(key);
+        ssh.connection.on("error",(err)=>{});
+    } catch(e){return null;}
     return ssh;
 }
 async function ssh_exec(ssh,sh){
     try{
-    var res=await ssh.execCommand(sh,{
-        onStdout:null,
-    });
-    return res.stdout;
+        var res=await ssh.execCommand(sh,{onStdout:null,});
+        return {success:true,data:res.stdout};;
     }
-    catch(e){return '';}
+    catch(e){
+        // console.log(e);
+        return {success:false,data:e};
+    }
 }
 async function spwan(key,sh,onData=(chunk)=>{process.stdout.write(chunk)}){
     if(key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=defaultTimeout;
-    key.tryKeyboard=true;
+    key.readyTimeout=10000;
     try{
-    var ssh=new NodeSSH();
-    await ssh.connect(key);
-    var res=await ssh.execCommand(sh,{
-        onStdout:onData,
-    });
-    ssh.dispose();
-    return res.stdout;
-    }catch(e){return '';}
+        var ssh=new NodeSSH();
+        await ssh.connect(key);
+        ssh.connection.on("error",(err)=>{});
+        var res=await ssh.execCommand(sh,{
+            onStdout:onData,
+        });
+        await ssh.dispose();
+        return {success:true,data:res.stdout};
+    }catch(e){return {success:false,data:e};}
 }
 async function exec(key,sh){
     if(key.privateKey=='')delete key.privateKey;
-    key.readyTimeout=defaultTimeout;
-    key.tryKeyboard=true;
+    key.readyTimeout=60000;
     try{
-    var ssh=new NodeSSH();
-    await ssh.connect(key);
-    var res=await ssh.execCommand(sh,{});
-    ssh.dispose();
-    return res.stdout;
-    }catch(e){return '';}
+        var ssh=new NodeSSH();
+        await ssh.connect(key);
+        ssh.connection.on("error",(err)=>{});
+        var res=await ssh.execCommand(sh,{});
+        await ssh.dispose();
+        return {success:true,data:res.stdout};
+    }catch(e){return {success:false,data:e};}
 }
-
+async function createSocket(key,ws,conf={}){
+    const ssh = new SSHClient();
+    ssh.on("ready",()=>{
+        ws.send("\r\n*** SSH CONNECTION ESTABLISHED ***\r\n");
+        ssh.shell((err, stream)=>{
+            if(conf.cols||conf.rows)stream.setWindow(conf.rows,conf.cols);
+            if(err)return ws.send("\n*** SSH SHELL ERROR: " + err.message + " ***\n");
+            ws.on("message", (data)=>{stream.write(data);});
+            ws.on("resize",(data)=>{stream.setWindow(data.rows,data.cols)})
+            ws.on("close",()=>{ssh.end()});
+            stream.on("data", (data)=>{ws.send(data.toString('utf-8'));})
+                .on("close",()=>{ssh.end()});
+        });
+    }).on("close",()=>{ws.close()})
+    .on("error",(err)=>{
+        ws.send("\r\n*** SSH CONNECTION ERROR: " + err.message + " ***\r\n");
+        ws.close();
+    }).connect(key);
+}
 function toJSON(x){return JSON.stringify(x);}
 var sshCons={},sshConTime={};
 async function Exec(key,cmd,verbose=0){
@@ -55,7 +75,7 @@ async function Exec(key,cmd,verbose=0){
     if(con&&con.isConnected()){
         if((new Date())-sshConTime[k]>120000){
             await con.dispose();
-            con=await ssh_con(key);   
+            con=await ssh_con(key);
             sshConTime[k]=new Date();
         }
     }
@@ -69,12 +89,16 @@ async function Exec(key,cmd,verbose=0){
     return res;
 }
 async function pidS(key,keyword){
-    var pids=(await Exec(key,`ps -aux|grep ${keyword}|awk '{print $2}'`)).trim().split('\n'),pS=new Set();
+    var x=await Exec(key,`ps -aux|grep ${keyword}|awk '{print $2}'`);
+    if(!x.success)return false;
+    var pids=x.data.trim().split('\n'),pS=new Set();
     for(var pid of pids)pS.add(pid);
     return pS;
 }
 async function netStat(key,keyword){
-    var lines=(await Exec(key,`netstat -lp | grep ${keyword}`)||' ').trim().split('\n'),res={};
+    var x=await Exec(key,`netstat -lp | grep ${keyword}`);
+    if(!x.success)return {};
+    var lines=x.data.trim().split('\n'),res={};
     try{
     for(var line of lines)if(line){
         var rows=line.trim().split(/\s+/);
@@ -88,5 +112,7 @@ async function netStat(key,keyword){
 module.exports={
     exec,spwan,
     ssh_con,ssh_exec,
-    Exec,netStat,pidS,
+    Exec,
+    createSocket,
+    netStat,pidS,
 }
