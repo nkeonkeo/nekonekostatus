@@ -1,0 +1,57 @@
+{%set title = "节点状态"%}
+{%extends "../base.html"%}
+
+{%block content%}
+<div class="mdui-fab-wrapper" mdui-dialog="{target:'#add_type_dialog'}" mdui-tooltip="{content:'切换卡片主题'}">
+    <a href="?theme=card" class="mdui-fab mdui-color-blue-600">
+        <i class="mdui-icon material-icons">view_module</i>
+    </a>
+</div>
+<table class="mdui-table">
+    <style>.mdui-table td, .mdui-table th{padding: 6px;}</style>
+    <thead>
+        <tr>
+            <th>名称</th><th>上行</th><th>下行</th><th>总上行</th><th>总下行</th><th>CPU</th><th>内存</th><th>more</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%for sid,node in stats%}
+    {%if node.stat!=-1%}
+    <tr>
+        <td>{{node.name}}</td>        
+        <td><st><span id="{{sid}}_NET_IN" style="max-width: fit-content;">NaN</span>/s</st></td>
+        <td><at><span id="{{sid}}_NET_OUT" style="max-width: fit-content;">NaN</span>/s</at></td>
+        <td><st><span id="{{sid}}_NET_IN_TOTAL" style="max-width: fit-content;">NaN</span></st></td>
+        <td><at><span id="{{sid}}_NET_OUT_TOTAL" style="max-width: fit-content;">NaN</span></at></td>
+        <td style="width: 10%;">
+            <div class="mdui-progress" style="height: 30px;">
+                <div id="{{sid}}_CPU_progress" class="mdui-progress-determinate mdui-color-indigo-400" style="width: 0%">
+                    <span id="{{sid}}_CPU" class="mdui-text-truncate" style="font-size: 16px;font-weight: 900;position: relative;top: 4px;left: 6px;font-weight: 900;">NaN</span>
+                </div>
+            </div>
+        </td>
+        <td style="width: 10%;">
+            <div class="mdui-progress" id="{{sid}}_MEM_item" style="height: 30px;background-color: #c0929d3f;">
+                <div id="{{sid}}_MEM_progress" class="mdui-progress-determinate mdui-color-pink-400" style="width: 0%">
+                    <span id="{{sid}}_MEM" class="mdui-text-truncate" style="font-size: 16px;font-weight: 900;position: relative;top: 4px;left: 6px;font-weight: 900;">NaN</span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <i class="mdui-icon material-icons" id="{{sid}}_host">info_outline</i>
+            {%if admin%}
+            <a class="mdui-btn mdui-btn-icon" href="/admin/servers/{{sid}}/">
+                <i class="mdui-icon material-icons">edit</i>
+            </a>
+            {%endif%}
+        </td>
+    </tr>
+    {%endif%}
+    {%endfor%}
+    </tbody>
+</table>
+{%endblock%}
+
+{%block js%}
+<script src="/js/stats-a.js"></script>
+{%endblock%}

@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-    {%set stas={'1':'<st>正常</st>','0':'<at>不可用</at>'}%}
+    {%set stas={'1':'<st>正常</st>','2':'<gt>对外隐藏</gt>','0':'<at>不可用</at>'}%}
     {%for server in servers%}
         <tr>
             <td class="ccp">{{server.name}}</td>

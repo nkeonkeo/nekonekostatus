@@ -49,20 +49,28 @@ async function exec(key,sh){
 async function createSocket(key,ws,conf={}){
     const ssh = new SSHClient();
     ssh.on("ready",()=>{
-        ws.send("\r\n*** SSH CONNECTION ESTABLISHED ***\r\n");
+        if(ws)ws.send("\r\n*** SSH CONNECTION ESTABLISHED ***\r\n".toString('utf-8'));
+        else return;
         ssh.shell((err, stream)=>{
+            if(err){
+                try{ws.send("\n*** SSH SHELL ERROR: " + err.message + " ***\n".toString('utf-8'));}catch{}
+                return;                
+            }
             if(conf.cols||conf.rows)stream.setWindow(conf.rows,conf.cols);
-            if(err)return ws.send("\n*** SSH SHELL ERROR: " + err.message + " ***\n");
+            if(conf.sh)stream.write(conf.sh);
             ws.on("message", (data)=>{stream.write(data);});
             ws.on("resize",(data)=>{stream.setWindow(data.rows,data.cols)})
             ws.on("close",()=>{ssh.end()});
-            stream.on("data", (data)=>{ws.send(data.toString('utf-8'));})
+            stream.on("data", (data)=>{try{ws.send(data.toString('utf-8'));}catch{}})
                 .on("close",()=>{ssh.end()});
         });
-    }).on("close",()=>{ws.close()})
+    }).on("close",()=>{
+        try{ws.close()}catch{}})
     .on("error",(err)=>{
-        ws.send("\r\n*** SSH CONNECTION ERROR: " + err.message + " ***\r\n");
-        ws.close();
+        try{
+            ws.send("\r\n*** SSH CONNECTION ERROR: " + err.message + " ***\r\n");
+            ws.close();
+        } catch {}
     }).connect(key);
 }
 function toJSON(x){return JSON.stringify(x);}

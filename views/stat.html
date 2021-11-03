@@ -11,8 +11,12 @@
     <div class="mdui-card-menu">
         <i class="mdui-icon material-icons" id="host">info_outline</i>
         {%if admin%}
-        <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">edit</i></a>
-        <button onclick="webssh()"  class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">build</i></button>
+        <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon">
+            <i class="mdui-icon material-icons">edit</i>
+        </a>
+        <button onclick="webssh()" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'web ssh'}">
+            <i class="mdui-icon material-icons">open_in_browser</i>
+        </button>
         {%endif%}
     </div>
     <div class="mdui-card-content">

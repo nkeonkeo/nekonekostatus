@@ -3,15 +3,22 @@ const fetch=require("node-fetch"),
     schedule=require("node-schedule");
 function sleep(ms){return new Promise(resolve=>setTimeout(()=>resolve(),ms));};
 module.exports=async(svr)=>{
-const {db,pr}=svr.locals;
-var stats={},fails={};
+const {db,pr,bot}=svr.locals;
+var stats={},fails={},highcpu={},highDown={},updating=new Set(),noticed={};
+function getStats(isAdmin=false){
+    var Stats={};
+    for(var {sid,status} of db.servers.all())if(status==1||(status==2&&isAdmin)){
+        if(sid in stats)Stats[sid]=stats[sid];
+    }
+    return Stats;
+}
 svr.get("/",(req,res)=>{
     res.render('stats',{
-        stats,
+        stats:getStats(req.admin),
         admin:req.admin
     });
 });
-svr.get("/stats/data",(req,res)=>{res.json(stats);});
+svr.get("/stats/data",(req,res)=>{res.json(getStats(req.admin));});
 svr.get("/stats/:sid",(req,res)=>{
     var {sid}=req.params,node=stats[sid];
     res.render('stat',{
@@ -44,27 +51,60 @@ async function getStat(server){
     else return false;
 }
 async function update(server){
-    var {sid}=server,stat=-1;
-    if(server.status==1)stat=await getStat(server);
-    if(stat==-1){
-        fails[sid]=(fails[sid]||0)+1;
-        if(fails[sid]>3)delete stats[sid];
+    var {sid}=server;
+    if(updating.has(sid))return;
+    updating.add(sid);
+    if(server.status<=0){
+        delete stats[sid];
+        updating.delete(sid);
         return;
     }
-    fails[sid]=0;
-    if(server.data.device&&stat){
-        var device=stat.net.devices[server.data.device];
-        if(device){
-            stat.net.total=device.total;
-            stat.net.delta=device.delta;
+    var stat=await getStat(server);
+    if(stat){
+        if(sid in stats&&stats[sid].stat==false){
+            // console.log(`#恢复 ${server.name} ${new Date().toLocaleString()}`);
+            bot.funcs.notice(`#恢复 ${server.name} ${new Date().toLocaleString()}`);
+        }
+        if(server.data.device){
+            var device=stat.net.devices[server.data.device];
+            if(device){
+                stat.net.total=device.total;
+                stat.net.delta=device.delta;
+            }
+        }
+        stats[sid]={name:server.name,stat},fails[sid]=0;
+
+        // if(stat.net.delta&&stat.net.delta.in>stat.net.delta.out*5&&stat.net.delta.in>15*1024*1024){
+        //     if(highDown[sid]){
+        //         bot.funcs.notice(`#下行异常 ${server.name} ↓:${strB(stat.net.delta.in)}/s ↑:${strB(stat.net.delta.out)}/s ${new Date().toLocaleString()}`);
+        //     }
+        //     else highDown[sid]=true;
+        // } else highDown[sid]=false;
+        // if(stat.cpu.multi>0.8){
+        //     if((highcpu[sid]=(highcpu[sid]||0)+1)>=5){
+        //         if(!noticed[sid]||new Date()-noticed[sid]>30*60*1000){
+        //             bot.funcs.notice(`#过载 ${server.name} 持续5次探测CPU超过80% ${new Date().toLocaleString()}`);
+        //             noticed[sid]=new Date();
+        //         }
+        //     }
+        // } else if(stat.cpu.multi<0.5)highcpu[sid]=0;
+    } else {
+        if(sid in stats&&stats[sid].stat){
+            if((fails[sid]=(fails[sid]||0)+1)>10){
+                // console.log(`#掉线 ${server.name} ${new Date().toLocaleString()}`);
+                bot.funcs.notice(`#掉线 ${server.name} ${new Date().toLocaleString()}`);
+                stats[sid]={name:server.name,stat:false};
+            }            
+        } else {
+            stats[sid]={name:server.name,stat:false};
         }
     }
-    stats[sid]={name:server.name,stat};
+    updating.delete(sid);
 }
 async function get(){
     var s=new Set();
     for(var server of db.servers.all())
-        if(server.status==1){
+        if(server.status>0){
             update(server),s.add(server.sid);
             await sleep(300);
         }    
