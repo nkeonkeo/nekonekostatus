@@ -11,6 +11,9 @@ const servers={
     },
     upd_status(sid,status){DB.prepare("UPDATE servers SET status=? WHERE sid=?").run(status,sid);},
     upd_data(sid,data){DB.prepare("UPDATE servers SET data=? WHERE sid=?").run(JSON.stringify(data),sid);},
+    upd_top(sid,top){
+        this._upd_top.run(top,sid);
+    },_upd_top:DB.prepare("UPDATE servers set top=? WHERE sid=?"),
     _get:DB.prepare("SELECT * FROM servers WHERE sid=?"),
     get(sid){
         var server=this._get.get(sid);

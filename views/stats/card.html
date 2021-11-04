@@ -1,7 +1,7 @@
 {%set title = "节点状态"%}
 {%extends "../base.html"%}
 {%block content%}
-<div class="mdui-fab-wrapper" mdui-dialog="{target:'#add_type_dialog'}" mdui-tooltip="{content:'切换为列表主题'}">
+<div class="mdui-fab-wrapper" mdui-tooltip="{content:'切换为列表主题'}">
     <a href="?theme=list" class="mdui-fab mdui-color-blue-600">
         <i class="mdui-icon material-icons">list</i>
     </a>
@@ -13,8 +13,7 @@
     <div class="mdui-col">
         <div class="mdui-card mt {%if node.stat==0%}mdui-text-color-grey offline{%endif%}">
             <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title mdui-text-truncate" title="{{node.name}}">{{node.name}}</div>
-                <!-- <div class="mdui-card-primary-subtitle">{{stat.describe}}</div> -->
+                <div class="mdui-card-primary-title mdui-text-truncate poh" title="{{node.name}}" href="/stats/{{sid}}/">{{node.name}}</div>
             </div>
             <div class="mdui-card-menu">
                 <i class="mdui-icon material-icons" id="{{sid}}_host">info_outline</i>
@@ -88,5 +87,5 @@
 {%endblock%}
 
 {%block js%}
-<script src="/js/stats-a.js"></script>
+<script src="/js/stats.js"></script>
 {%endblock%}

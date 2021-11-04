@@ -19,7 +19,7 @@
                 <input class="mdui-textfield-input" type="password" value="{{setting.password}}" key="password">
             </div>
         </div>
-        <div class="mdui-row mdui-row-md-2">
+        <div class="mdui-row mdui-row-md-3">
             <div class="mdui-col mdui-textfield">
                 <label class="mdui-textfield-label">站点名称</label>
                 <input class="mdui-textfield-input" type="text" value="{{setting.site.name}}" key="site.name">
@@ -27,6 +27,13 @@
             <div class="mdui-col mdui-textfield">
                 <label class="mdui-textfield-label">站点网址</label>
                 <input class="mdui-textfield-input" type="text" value="{{setting.site.url}}" key="site.url">
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">默认主题</label>
+                <select class="mdui-select" key="theme">
+                    <option value="card" {%if setting.theme == "card"%}selected{%endif%}>卡片</option>
+                    <option value="list" {%if setting.theme == "list"%}selected{%endif%}>列表</option>
+                </select>
             </div>
         </div>
         <div class="mdui-row">
@@ -51,7 +58,7 @@
                     <i class="mdui-switch-icon"></i>
                 </label>
             </div>
-        </div>
+        </div>        
         <label class="mdui-checkbox">
             <input type="checkbox" type="text" {%if setting.debug%}checked{%endif%} key="debug">
             <i class="mdui-checkbox-icon"></i>调试

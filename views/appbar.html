@@ -8,6 +8,7 @@
 
         <div class="mdui-toolbar-spacer"></div>
         {%if admin%}
+        <a href="/admin/servers" mdui-tooltip="{content:'管理服务器'}" class="mdui-icon material-icons">storage</a>
         <a href="/admin/setting" mdui-tooltip="{content:'管理设置'}" class="mdui-icon material-icons">settings</a>
         <a href="/logout" mdui-tooltip="{content:'登出'}" class="mdui-icon material-icons">exit_to_app</a>
         {%else%}

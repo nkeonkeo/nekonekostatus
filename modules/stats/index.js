@@ -13,7 +13,8 @@ function getStats(isAdmin=false){
     return Stats;
 }
 svr.get("/",(req,res)=>{
-    res.render('stats',{
+    var {theme=db.setting.get("theme")||"card"}=req.query;
+    res.render(`stats/${theme}`,{
         stats:getStats(req.admin),
         admin:req.admin
     });

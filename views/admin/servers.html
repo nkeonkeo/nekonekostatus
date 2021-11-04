@@ -3,30 +3,44 @@
 {% extends "../base.html" %}
 
 {% block content %}
-<p>
-    <button class="mdui-btn mdui-btn-raised mdui-color-blue mdui-text-color-white btn" href="/admin/servers/add">新增服务器</button>
-</p>
+<div class="mdui-fab-wrapper" mdui-fab="{trigger: 'hover'}">
+    <button class="mdui-fab mdui-color-blue-grey-600">
+        <i class="mdui-icon material-icons">menu</i>
+        <i class="mdui-icon mdui-fab-opened material-icons">clear_all</i>
+    </button>
+    <div class="mdui-fab-dial">
+        <a class="mdui-fab mdui-fab-mini mdui-color-blue-a200" href="/admin/servers/add" mdui-tooltip="{content:'新增服务器'}">
+            <i class="mdui-icon material-icons">add</i>
+        </a>
+        <a class="mdui-fab mdui-fab-mini mdui-color-pink" href="/admin/ssh_scripts" mdui-tooltip="{content:'新增ssh代码片段'}">
+            <i class="mdui-icon material-icons">format_align_left</i>
+        </a>
+        <a class="mdui-fab mdui-fab-mini mdui-color-indigo" onclick="saveOrder()" mdui-tooltip="{content:'更新顺序'}">
+            <i class="mdui-icon material-icons">save</i>
+        </a>
+    </div>
+</div>
 <div class="mdui-table-fluid">
 <table class="mdui-table">
     <thead>
         <tr>
-            <th>名称</th><th>host</th><th>range</th><th>倍率</th><th>等级</th><th>类型</th><th>状态</th><th>操作</th>
+            <th>排序</th><th>名称</th><th>域名/IP</th><th>状态</th><th>操作</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="servers">
     {%set stas={'1':'<st>正常</st>','2':'<gt>对外隐藏</gt>','0':'<at>不可用</at>'}%}
     {%for server in servers%}
-        <tr>
+        <tr sid="{{server.sid}}">
+            <td><i class="handle mdui-icon material-icons poh">drag_handle</i></td>
             <td class="ccp">{{server.name}}</td>
-            <td class="ccp">{{server.host}}</td>
-            <td class="ccp">{{server.min}}-{{server.max}}</td>
-            <td class="ccp">{{server.mf}}</td>
-            <td class="ccp">{{server.level}}</td>
-            <td>{{server.type}}</td>
+            <td class="ccp">{{server.data.ssh.host}}</td>
             <td>{{stas[server.status]|safe}}</td>
             <td>
                 <a href="/admin/servers/{{server.sid}}/" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'编辑'}">
                     <i class="mdui-icon material-icons">edit</i>
+                </a>
+                <a class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'删除'}" onclick="del('{{server.sid}}')">
+                    <i class="mdui-icon material-icons">delete</i>
                 </a>
             </td>
         </tr>
@@ -36,6 +50,34 @@
 </div>
 {%endblock%}
 {%block js%}
+<script src=https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js></script>
 <script>
+new Sortable(E("servers"),{
+    handle: '.handle',
+    animation: 150
+});
+</script>
+<script>
+async function saveOrder(){
+    var servers=[];
+    for(var x of document.querySelectorAll("#servers > tr"))
+        servers.push(x.getAttribute('sid'));
+    var res=await postjson("/admin/servers/ord",{servers});
+    notice(res.data);
+}
+document.addEventListener("keydown", (e)=>{
+    if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+        e.preventDefault();
+        saveOrder();
+    }
+}, false);
+async function del(sid){
+    if(!confirm("确认删除?"))return;
+    startloading();
+    var res=await postjson(`/admin/servers/${sid}/del`);
+    endloading();
+    notice(res.data);
+    if(res.status)refreshPage();
+}
 </script>
 {% endblock %}

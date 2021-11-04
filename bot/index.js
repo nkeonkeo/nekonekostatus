@@ -8,11 +8,11 @@ function isPm(msg){return msg.from.id==msg.chat.id;}
 var Masters=new Set();
 // console.log(masters);
 // for(var chatId of masters)Masters.add(chatId);
-function notice(str){
+async function notice(str){
     for(var chatId of chatIds){
         try{
-            bot.sendMessage(chatId,str);
-        } catch{}
+            await bot.sendMessage(chatId,str);
+        } catch(e){}
     }
 }
 var funcs={

@@ -36,4 +36,4 @@ setInterval(async()=>{
         host_tooltips[sid].$element[0].innerText=content;
     }
     mdui.mutation();
-},1000);
+},3000);

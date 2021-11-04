@@ -38,6 +38,12 @@ svr.get("/admin/servers",(req,res)=>{
         servers:db.servers.all()
     })
 });
+svr.post("/admin/servers/ord",(req,res)=>{
+    var {servers}=req.body,ord=0;
+    servers.reverse();
+    for(var sid of servers)db.servers.upd_top(sid,++ord);
+    res.json(pr(true,'更新成功'));
+});
 svr.get("/admin/servers/:sid",(req,res)=>{
     var {sid}=req.params,server=db.servers.get(sid);
     res.render(`admin/servers/edit`,{

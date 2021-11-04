@@ -22,8 +22,9 @@ WantedBy=multi-user.target" > /etc/systemd/system/nekonekostatus.service
 systemctl daemon-reload
 systemctl start nekonekostatus
 systemctl enable nekonekostatus`
-    await ssh.Exec(server.data.ssh,sh);
-    return {status:1,data:"安装成功"};
+    var res=await ssh.Exec(server.data.ssh,sh);
+    if(res.success)return {status:1,data:"安装成功"};
+    else return {status:0,data:"安装失败/SSH连接失败"};
 }
 async function updateServer(server,neko_status_url){
     var sh=

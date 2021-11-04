@@ -11,6 +11,7 @@ import (
 )
 
 func GetStat() (map[string]interface{}, error) {
+	timer := time.NewTimer(300 * time.Millisecond)
 	res := gin.H{}
 	CPU1, err := cpu.Times(true)
 	if err != nil {
@@ -20,7 +21,7 @@ func GetStat() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	time.Sleep(200 * time.Millisecond)
+	<-timer.C
 	CPU2, err := cpu.Times(true)
 	if err != nil {
 		return nil, err
@@ -72,8 +73,8 @@ func GetStat() (map[string]interface{}, error) {
 		_out := x.BytesSent - NET1[i].BytesSent
 		res["net"].(gin.H)["devices"].(gin.H)[x.Name] = gin.H{
 			"delta": gin.H{
-				"in":  float64(_in) / 0.2,
-				"out": float64(_out) / 0.2,
+				"in":  float64(_in) / 0.3,
+				"out": float64(_out) / 0.3,
 			},
 			"total": gin.H{
 				"in":  x.BytesRecv,
@@ -89,8 +90,8 @@ func GetStat() (map[string]interface{}, error) {
 		out_total += x.BytesSent
 	}
 	res["net"].(gin.H)["delta"] = gin.H{
-		"in":  float64(in) / 0.2,
-		"out": float64(out) / 0.2,
+		"in":  float64(in) / 0.3,
+		"out": float64(out) / 0.3,
 	}
 	res["net"].(gin.H)["total"] = gin.H{
 		"in":  in_total,
