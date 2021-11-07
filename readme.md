@@ -2,8 +2,8 @@
 
 一个Material Design风格的服务器探针
 
+- 默认访问端口: 5555
 - 默认密码: `nekonekostatus`
-- 默认端口: 5555
 - 默认被控下载地址: https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status
 
 安装后务必修改密码！

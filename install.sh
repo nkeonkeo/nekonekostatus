@@ -59,14 +59,18 @@ sleep 3
 if systemctl status nekonekostatus-dashboard.service | grep "active (running)" > /dev/null
 then
     echo "面板启动成功"
+    echo ""
+    echo "默认访问端口: 5555"
     echo "默认密码: nekonekostatus"
-    echo "默认端口: 5555"
+    echo ""
+    echo "请及时修改密码！"
     echo ""
     echo "------------"
     echo ""
+    echo "TIPS: "
     echo "若无法访问, 请先尝试卸载防火墙, 并检查iptables规则"
-    echo "centos7: yum remove firewalld -y"
-    echo "debian: apt remove ufw -y"    
+    echo "CentOS: yum remove firewalld -y"
+    echo "Debian: apt remove ufw -y"    
 else
     echo "面板启动失败"
     systemctl status nekonekostatus-dashboard.service
