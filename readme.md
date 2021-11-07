@@ -15,13 +15,13 @@
 wget:
 
 ```bash
-wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh -O install.sh && bash install.sh
+wget https://raw.githubusercontent.com/nkeonkeo/nekonekostatus/main/install.sh -O install.sh && bash install.sh
 ```
 
 curl:
 
 ```bash
-curl https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh -o install.sh && bash install.sh
+curl https://raw.githubusercontent.com/nkeonkeo/nekonekostatus/main/install.sh -o install.sh && bash install.sh
 ```
 
 ## Docker
