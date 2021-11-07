@@ -10,21 +10,29 @@
 
 注意: 正处于快速开发迭代期，可能不保证无缝更新
 
+## 一键脚本安装
+
+wget:
+
+```bash
+wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh -O install.sh && bash install.sh
+```
+
+curl:
+
+```bash
+curl https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh -o install.sh && bash install.sh
+```
+
 ## Docker
+
+(暂未更新到新版本)
 
 ```bash
 docker run --restart=on-failure --name nekonekostatus -p 5555:5555 -d nkeonkeo/nekonekostatus:v1.0
 ```
 
 访问目标ip 5555端口即可,`5555:5555`可改成任意其他端口，如`2333:5555`
-
-## 一键脚本
-
-请先安装`wget`
-
-```bash
-wget https://github.com/nkeonkeo/nekonekostatus/raw/main/install.sh && bash install.sh
-```
 
 ## 手动安装
 

@@ -1,22 +1,65 @@
 #!/bin/bash
-yum install epel-release -y
-yum install centos-release-scl git -y
-yum install nodejs devtoolset-8-gcc* -y
 
-apt-get install nodejs npm git -y 
+clear && echo "\
+############################################################
 
-npm install n -g;
-PATH="$PATH";
-n latest;
-PATH="$PATH"
-npm install npm@latest -g;
-PATH="$PATH"
-npm install forever -g;
-PATH="$PATH"
+Neko Neko Status 一键安装脚本
+
+上次更新: 2021-11-07
+
+Powered by Neko Neko Cloud
+
+############################################################
+"
+
+echo "安装即将开始
+
+如果您想取消安装, 请在 5 秒钟内按 Ctrl+C 终止此脚本"
+sleep 5
+
+
+clear && echo "正在安装npm,git,gcc"
+
+bash -c "yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y"
+bash -c "apt update -y && apt-get install nodejs npm git build-essential -y"
+
+clear && echo "正在更新npm"
+bash -c "npm install n -g"
+source /root/.bashrc
+bash -c "n latest"
+source /root/.bashrc
+bash -c "npm install npm@latest -g"
+source /root/.bashrc
+bash -c "npm install forever -g"
+source /root/.bashrc
 cd /root/
+clear && echo "正在克隆仓库"
 git clone https://github.com/nkeonkeo/nekonekostatus.git
 cd nekonekostatus
-scl enable devtoolset-8 bash
+git pull
+clear && echo "正在安装依赖模块"
+source /opt/rh/devtoolset-8/enable
 npm install
-bash run.sh
-echo "面板运行成功！"
+
+echo "安装完成, 正在启动面板"
+
+echo "[Unit]
+Description=nekonekostatus
+
+[Service]
+Type=simple
+ExecStart=/root/nekonekostatus/nekonekostatus.js
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nekonekostatus-dashboard.service
+systemctl daemon-reload
+systemctl enable nekonekostatus-dashboard.service
+systemctl start nekonekostatus-dashboard.service
+sleep 3
+if systemctl status nekonekostatus-dashboard.service | grep "active (running)" > /dev/null
+then
+    echo "面板启动成功"
+else
+    echo "面板启动失败"
+    systemctl status nekonekostatus-dashboard.service
+fi
