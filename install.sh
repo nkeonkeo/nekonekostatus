@@ -20,8 +20,8 @@ sleep 5
 
 clear && echo "正在安装npm,git,gcc"
 
-bash -c "yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y"
-bash -c "apt update -y && apt-get install nodejs npm git build-essential -y"
+yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y
+apt update -y && apt-get install nodejs npm git build-essential -y
 
 clear && echo "正在更新npm"
 bash -c "npm install n -g"

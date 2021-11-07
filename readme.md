@@ -10,6 +10,20 @@
 
 注意: 正处于快速开发迭代期，可能不保证无缝更新
 
+Feature:
+
+- 面板一键安装被控
+- 负载监控、带宽监控、流量统计图表
+- Telegram 掉线/恢复 通知
+- 好看的主题 (卡片/列表、夜间模式)
+- WEBSSH、脚本片段
+
+TODOLIST:
+
+- 主动通知模式
+- 硬盘监控
+- WEBSSH的一些小问题
+
 ## 一键脚本安装
 
 wget:
@@ -41,20 +55,25 @@ docker run --restart=on-failure --name nekonekostatus -p 5555:5555 -d nkeonkeo/n
 centos: 
 
 ```bash
-yum install epel-release centos-release-scl -y
-yum install nodejs devtoolset-8-gcc* git -y
-scl enable devtoolset-8 bash
-npm install n -g
-n latest
+yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y
+bash -c "npm install n -g"
+source /root/.bashrc
+bash -c "n latest"
+source /root/.bashrc
+bash -c "npm install npm@latest -g"
+source /root/.bashrc
 ```
 
 debian/ubuntu:
 
-```
-apt-get install nodejs npm git -y
-npm install n -g
-scl enable devtoolset-8 bash
-n latest
+```bash
+apt update -y && apt-get install nodejs npm git build-essential -y
+bash -c "npm install n -g"
+source /root/.bashrc
+bash -c "n latest"
+source /root/.bashrc
+bash -c "npm install npm@latest -g"
+source /root/.bashrc
 ```
 
 ---
@@ -64,16 +83,34 @@ n latest
 ```bash
 git clone https://github.com/nkeonkeo/nekonekostatus.git
 cd nekonekostatus
+source /opt/rh/devtoolset-8/enable
 npm install
 ```
 
 ## 配置 & 运行
 
-复制`config.js.example`到`config.js`,并根据注释编辑配置
-
 `node nekonekostatus.js` 即可运行
 
-后台常驻, 请先安装`forever`(`npm install forever -g`),然后: `forever start nekonekostatus.js`
+后台常驻:
+
+1. 安装`forever`(`npm install forever -g`),然后: `forever start nekonekostatus.js`
+   
+2. 使用systemd
+   
+```bash
+echo "[Unit]
+Description=nekonekostatus
+
+[Service]
+Type=simple
+ExecStart=/root/nekonekostatus/nekonekostatus.js
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nekonekostatus-dashboard.service
+systemctl daemon-reload
+systemctl enable nekonekostatus-dashboard.service
+systemctl start nekonekostatus-dashboard.service
+```
 
 https请使用nginx等反代
 
