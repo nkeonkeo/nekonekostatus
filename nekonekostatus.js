@@ -22,7 +22,7 @@ svr.engine('html', nunjucks.render);
 svr.set('view engine', 'html');
 require('express-ws')(svr);
 
-var env=nunjucks.configure('views', {
+var env=nunjucks.configure(__dirname+'/views', {
     autoescape: true,
     express: svr,
     watch:setting.debug,
