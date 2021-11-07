@@ -38,6 +38,16 @@ curl:
 curl https://raw.githubusercontent.com/nkeonkeo/nekonekostatus/main/install.sh -o install.sh && bash install.sh
 ```
 
+## 更新
+
+记得备份数据库 (`database/db.db`)
+
+```bash
+cd /root/nekonekostatus
+git pull
+systemctl restart nekonekostatus-dashboard
+```
+
 ## Docker
 
 (暂未更新到新版本)
