@@ -16,7 +16,7 @@ svr.use(bp.urlencoded({extended: false}));
 svr.use(bp.json({limit:'100mb'}));
 svr.use(ckp());
 svr.use(express.json());
-svr.use(express.static("./static"));
+svr.use(express.static(__dirname+"/static"));
 
 svr.engine('html', nunjucks.render);
 svr.set('view engine', 'html');
