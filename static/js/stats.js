@@ -1,5 +1,5 @@
 function strB(b){
-    if(b<1000)return b.toString()+'B';
+    if(b<1000)return b.toFixed(2)+'B';
     if(b<1000000)return (b/1000).toFixed(2)+'KB';
     if(b<1000000000)return (b/1000000).toFixed(2)+'MB';
     if(b<1000000000000)return (b/1000000000).toFixed(2)+'GB';
