@@ -52,13 +52,13 @@ systemctl restart nekonekostatus-dashboard
 
 ## Docker
 
-(暂未更新到新版本)
-
 ```bash
-docker run --restart=on-failure --name nekonekostatus -p 5555:5555 -d nkeonkeo/nekonekostatus:v1.0
+docker run --restart=on-failure --name nekonekostatus -p 5555:5555 -d nkeonkeo/nekonekostatus:latest
 ```
 
 访问目标ip 5555端口即可,`5555:5555`可改成任意其他端口，如`2333:5555`
+
+备份数据库: `/root/nekonekostatus/database/db.db`
 
 ## 手动安装
 
