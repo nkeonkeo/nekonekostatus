@@ -99,7 +99,7 @@ async function add(){
         },
         device:V('add_device')
     };
-    var res=await postjson(`/admin/servers/add`,{sid,name,top,data});
+    var res=await postjson(`/admin/servers/add`,{sid,name,data});
     endloading();
     notice(res.data);
     if(res.status)redirect(`/admin/servers/${res.data}/`);
