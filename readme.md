@@ -112,9 +112,12 @@ npm install
 ```bash
 echo "[Unit]
 Description=nekonekostatus
+After=network.target
 
 [Service]
 Type=simple
+Restart=always
+RestartSec=5
 ExecStart=/root/nekonekostatus/nekonekostatus.js
 
 [Install]
