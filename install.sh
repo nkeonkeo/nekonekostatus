@@ -45,9 +45,12 @@ echo "安装完成, 正在启动面板"
 
 echo "[Unit]
 Description=nekonekostatus
+After=network.target
 
 [Service]
 Type=simple
+Restart=always
+RestartSec=5
 ExecStart=/root/nekonekostatus/nekonekostatus.js
 
 [Install]
