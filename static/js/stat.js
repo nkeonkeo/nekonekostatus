@@ -48,4 +48,4 @@ async function get(){
     host_tooltip.$element[0].innerText=content;
 }
 get()
-setInterval(get,3000);
+setInterval(get,1000);
