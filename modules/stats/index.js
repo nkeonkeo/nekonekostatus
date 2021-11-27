@@ -54,15 +54,11 @@ async function getStat(server){
 }
 async function update(server){
     let {sid}=server;
-    if(updating.has(sid))return;
-    updating.add(sid);
     if(server.status<=0){
         delete stats[sid];
-        updating.delete(sid);
         return;
     }
     let stat=await getStat(server);
-    updating.delete(sid);
     if(stat){
         let notice=false;
         if(sid in stats&&stats[sid].stat==false)notice=true;
@@ -108,13 +104,14 @@ async function get(){
     let s=new Set();
     for(let server of db.servers.all())
         if(server.status>0){
-            update(server),s.add(server.sid);
+            s.add(server.sid);
+            if(updating.has(server.sid))continue;
+            updating.add(server.sid);
+            update(server).then(async()=>{await sleep(50);updating.delete(server.sid)});
             await sleep(50);
         }
-    for(let [sid,stat] of Object.entries(stats)){
-        delete stats[sid];
-        if(s.has(sid))stats[sid]=stat;
-    }
+    for(let [sid] of Object.keys(stats))
+        if(!s.has(sid))delete stats[sid];
 }
 function calc(){
     for(let server of db.servers.all()){
