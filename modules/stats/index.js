@@ -101,17 +101,18 @@ async function update(server){
     }
 }
 async function get(){
-    let s=new Set();
-    for(let server of db.servers.all())
-        if(server.status>0){
-            s.add(server.sid);
-            if(updating.has(server.sid))continue;
+    let s=new Set(),wl=[];
+    for(let server of db.servers.all())if(server.status>0){
+        s.add(server.sid);
+        if(updating.has(server.sid))continue;
+        wl.push((async(server)=>{
             updating.add(server.sid);
-            update(server).then(async()=>{await sleep(50);updating.delete(server.sid)});
-            await sleep(50);
-        }
-    for(let [sid] of Object.keys(stats))
-        if(!s.has(sid))delete stats[sid];
+            await update(server);
+            updating.delete(server.sid);
+        })(server));
+    }
+    for(let sid in stats)if(!s.has(sid))delete stats[sid];
+    return Promise.all(wl);
 }
 function calc(){
     for(let server of db.servers.all()){

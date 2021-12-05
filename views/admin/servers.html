@@ -36,9 +36,12 @@
             <td class="ccp">{{server.data.ssh.host}}</td>
             <td>{{stas[server.status]|safe}}</td>
             <td>
+                <a class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'安装'}" onclick="init('{{server.sid}}')">
+                    <i class="mdui-icon material-icons">redo</i>
+                </a>
                 <a href="/admin/servers/{{server.sid}}/" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'编辑'}">
                     <i class="mdui-icon material-icons">edit</i>
-                </a>
+                </a>                
                 <a class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'删除'}" onclick="del('{{server.sid}}')">
                     <i class="mdui-icon material-icons">delete</i>
                 </a>
@@ -71,6 +74,12 @@ document.addEventListener("keydown", (e)=>{
         saveOrder();
     }
 }, false);
+async function init(sid){
+    startloading();
+    var res=await postjson(`/admin/servers/${sid}/init`);
+    endloading();
+    notice(res.data);
+}
 async function del(sid){
     if(!confirm("确认删除?"))return;
     startloading();
