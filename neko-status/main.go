@@ -7,6 +7,8 @@ import (
 	"log"
 	"strconv"
 
+	"neko-status/stat"
+
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v2"
 )
@@ -42,30 +44,37 @@ func main() {
 		}
 		// fmt.Println(Config)
 	}
-	if show_version != false {
+	if show_version {
 		fmt.Println("neko-status v1.0")
 		return
 	}
-
+	API()
+}
+func API() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
-	r.GET("/stat", func(c *gin.Context) {
-		res, err := GetStat()
-		if err == nil {
-			resp(c, true, res, 200)
-		} else {
-			resp(c, false, err, 500)
-		}
-	})
+	r.Use(checkKey)
+	r.GET("/stat", Stat)
+	r.GET("/iperf3", Iperf3)
+	r.GET("/iperf3ws", Iperf3Ws)
 	fmt.Println("Api port:", Config.Port)
 	fmt.Println("Api key:", Config.Key)
 	r.Run(":" + strconv.Itoa(Config.Port))
 }
-func webMiddleware(c *gin.Context) {
+func checkKey(c *gin.Context) {
 	if c.Request.Header.Get("key") != Config.Key {
 		resp(c, false, "Api key Incorrect", 500)
 		c.Abort()
 		return
 	}
 	c.Next()
+}
+
+func Stat(c *gin.Context) {
+	res, err := stat.GetStat()
+	if err == nil {
+		resp(c, true, res, 200)
+	} else {
+		resp(c, false, err, 500)
+	}
 }
