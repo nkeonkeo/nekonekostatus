@@ -53,5 +53,9 @@ func Iperf3Ws(c *gin.Context) {
 	if protocol == "" {
 		protocol = "tcp"
 	}
-	iperf3.Iperf3(host, port, reverse, time, parallel, protocol, c)
+	ws, err := upGrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		return
+	}
+	iperf3.Iperf3(host, port, reverse, time, parallel, protocol, ws)
 }

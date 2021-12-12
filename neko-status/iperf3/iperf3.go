@@ -3,13 +3,11 @@ package iperf3
 import (
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
@@ -29,12 +27,6 @@ type Result struct {
 
 const iperf3path = "/usr/bin/iperf3"
 const timeout = 5000
-
-var upGrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
 
 func toStat(str string) Stat {
 	t := strings.Fields(str[5:])
@@ -65,15 +57,7 @@ func toStat(str string) Stat {
 	return stat
 }
 
-func AnalStdout(stdout io.Reader, multi bool, c *gin.Context) (res Result) {
-	var ws *websocket.Conn
-	var err error
-	if c != nil {
-		ws, err = upGrader.Upgrade(c.Writer, c.Request, nil)
-		if err != nil {
-			return
-		}
-	}
+func AnalStdout(stdout io.Reader, multi bool, ws *websocket.Conn) (res Result) {
 	waitID := true
 	buf := make([]byte, 2048)
 	for {
@@ -120,7 +104,7 @@ func AnalStdout(stdout io.Reader, multi bool, c *gin.Context) (res Result) {
 	return
 }
 
-func Iperf3(host string, port int, reverse bool, ti int, parallel int, protocol string, ws *gin.Context) (res Result, err error) {
+func Iperf3(host string, port int, reverse bool, ti int, parallel int, protocol string, ws *websocket.Conn) (res Result, err error) {
 	Args := []string{
 		iperf3path,
 		"-c", host,

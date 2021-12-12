@@ -62,12 +62,12 @@ func API() {
 	r.Run(":" + strconv.Itoa(Config.Port))
 }
 func checkKey(c *gin.Context) {
-	if c.Request.Header.Get("key") != Config.Key {
+	if c.Request.Header.Get("key") == Config.Key || c.Query("key") == Config.Key {
+		c.Next()
+	} else {
 		resp(c, false, "Api key Incorrect", 500)
 		c.Abort()
-		return
 	}
-	c.Next()
 }
 
 func Stat(c *gin.Context) {
