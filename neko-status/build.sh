@@ -7,8 +7,8 @@ echo "build linux amd64..."
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o build/neko-status_linux_amd64
 echo "build darwin amd64..."
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build                    -ldflags="-w -s" -o build/neko-status_darwin_amd64
-echo "build windows amd64..."
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build                   -ldflags="-w -s" -o build/neko-status_windows_amd64.exe
+# echo "build windows amd64..."
+# CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build                   -ldflags="-w -s" -o build/neko-status_windows_amd64.exe
 echo "build freebsd amd64..."
 CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build                   -ldflags="-w -s" -o build/neko-status_freebsd_amd64
 echo "build openbsd amd64..."
@@ -23,8 +23,8 @@ CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build                    -ldflags="-w 
 
 echo "build linux 386..."
 CGO_ENABLED=0 GOOS=linux GOARCH=386 go build                       -ldflags="-w -s" -o build/neko-status_linux_386
-echo "build windows 386..."
-CGO_ENABLED=0 GOOS=windows GOARCH=386 go build                     -ldflags="-w -s" -o build/neko-status_windows_386.exe
+# echo "build windows 386..."
+# CGO_ENABLED=0 GOOS=windows GOARCH=386 go build                     -ldflags="-w -s" -o build/neko-status_windows_386.exe
 echo "build freebsd 386..."
 CGO_ENABLED=0 GOOS=freebsd GOARCH=386 go build                     -ldflags="-w -s" -o build/neko-status_freebsd_386
 echo "build openbsd 386..."
