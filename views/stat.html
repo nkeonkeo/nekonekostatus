@@ -14,7 +14,7 @@
         <a href="/admin/servers/{{sid}}/" class="mdui-btn mdui-btn-icon">
             <i class="mdui-icon material-icons">edit</i>
         </a>
-        <button onclick="webssh()" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'web ssh'}">
+        <button onclick="webssh('{{sid}}')" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content:'web ssh'}">
             <i class="mdui-icon material-icons">open_in_browser</i>
         </button>
         {%endif%}
@@ -46,7 +46,7 @@
                             <div id="MEM_progress" class="mdui-progress-determinate mdui-color-pink-400" style="width: {{node.stat.mem.mem*100}}%;"></div>
                         </div>
                         <div class="mdui-progress">
-                            <div id="SWAP_progress" class="mdui-progress-determinate mdui-color-red-400" style="width: {{node.stat.mem.swap*100}}%;"></div>                            
+                            <div id="SWAP_progress" class="mdui-progress-determinate mdui-color-red-400" style="width: {{node.stat.mem.swap*100}}%;"></div>
                         </div>
                     </div>
                 </div>

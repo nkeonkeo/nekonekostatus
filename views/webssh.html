@@ -29,16 +29,17 @@
 <script>
 var webSSHdialog=new mdui.Dialog("#webSSHdialog"),
     term=null,socket=null,
-    route=`/admin/servers/{{sid}}/ws-ssh/`;
+    now_sid="";
 function resize(){
     term.FitAddon.fit();
     // socket.emit("resize",{cols:term.cols,rows:term.rows});
 }
-function connect(){
+function connect(sid=now_sid){
+    var path=`/admin/servers/${sid}/ws-ssh/`;
     if(socket&&socket.readyState==1)return;
     startloading();
     term.FitAddon.fit();
-    socket=new WebSocket(window.location.origin.replace('http','ws')+route+JSON.stringify({
+    socket=new WebSocket(window.location.origin.replace('http','ws')+path+JSON.stringify({
         cols:term.cols,
         rows:term.rows,
     }));
@@ -54,15 +55,15 @@ function dispose(){
     socket.close();
     webSSHdialog.close();
 }
-async function webssh(){
+async function webssh(sid){
     if(term){
         webSSHdialog.open();
         term.focus();
-        connect();
+        connect(sid);
         return;
     }
-    var H=window.screen.availHeight*0.9,
-        W=document.body.clientWidth*0.9,
+    var H=window.screen.availHeight*0.95,
+        W=document.body.clientWidth*0.95,
         TH=H-48-68-52,TW=W-48;
     E('webSSHdialog').style.height=H+'px';
     E('webSSHdialog').style.width=W+'px';
@@ -86,14 +87,17 @@ async function webssh(){
     term.WebLinksAddon=new WebLinksAddon.WebLinksAddon();
     term.loadAddon(term.WebLinksAddon);
     term.onData(data=>{
-        if(socket.readyState!=1)return connect();
+        if(socket.readyState!=1){
+            connect(sid);
+            return;
+        }
         try{
             socket.send(data);
         } catch (e){
             term.write('\r\nConnection lost, trying to connect again!\r\n');
-            connect();
+            connect(sid);
         }
     });
-    connect();
+    connect(sid);
 }
 </script>
