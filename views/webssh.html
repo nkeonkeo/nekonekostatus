@@ -37,17 +37,16 @@ function resize(){
 function connect(){
     if(socket&&socket.readyState==1)return;
     startloading();
+    term.FitAddon.fit();
     socket=new WebSocket(window.location.origin.replace('http','ws')+route+JSON.stringify({
         cols:term.cols,
         rows:term.rows,
     }));
     socket.addEventListener('open',(e)=>{
         endloading();
-        resize();
-        window.addEventListener('resize',resize,false);
         term.focus();
     })
-    socket.addEventListener('message',(e)=>{term.write(e.data.toString());});
+    socket.addEventListener('message',(e)=>{term.write(e.data.toString("utf-8"));});
     socket.addEventListener('close',(ev)=>{});
     socket.addEventListener('error',(ev)=>{});
 }

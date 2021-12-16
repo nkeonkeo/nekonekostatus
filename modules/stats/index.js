@@ -8,7 +8,7 @@ var stats={},fails={},highcpu={},highDown={},updating=new Set(),noticed={};
 function getStats(isAdmin=false){
     let Stats={};
     for(let {sid,status} of db.servers.all())if(status==1||(status==2&&isAdmin)){
-        if(sid in stats)Stats[sid]=stats[sid];
+        if(stats[sid])Stats[sid]=stats[sid];
     }
     return Stats;
 }
@@ -43,7 +43,9 @@ async function getStat(server){
     let res;
     try{
         res=await fetch(`http://${server.data.ssh.host}:${server.data.api.port}/stat`,{
-            method:"GET",headers:{key:server.data.api.key},
+            method:"GET",
+            headers:{key:server.data.api.key},
+            timeout:15000,
         }).then(res=>res.json());
     }catch(e){
         // console.log(e);
@@ -61,7 +63,7 @@ async function update(server){
     let stat=await getStat(server);
     if(stat){
         let notice=false;
-        if(sid in stats&&stats[sid].stat==false)notice=true;
+        if(stats[sid]&&stats[sid].stat==false)notice=true;
         if(server.data.device){
             let device=stat.net.devices[server.data.device];
             if(device){
@@ -91,7 +93,7 @@ async function update(server){
     } else {
         let notice=false;
         if((fails[sid]=(fails[sid]||0)+1)>10){
-            if(sid in stats&&stats[sid].stat)notice=true;
+            if(stats[sid]&&stats[sid].stat)notice=true;
             stats[sid]={name:server.name,stat:false};
         }
         if(notice){

@@ -25,8 +25,8 @@ a{text-decoration:none;color:#333;}.mdui-theme-layout-dark a{color:#fff;}
     {%if node.stat!=-1%}
     <tr class="{%if node.stat==0%}offline{%endif%}">
         <td class="{%if node.stat==0%}mdui-text-color-grey{%endif%}"><a href="/stats/{{sid}}/">{{node.name}}</a></td>
-        <td><st><span id="{{sid}}_NET_IN" style="max-width: fit-content;">NaN</span>/s</st></td>
-        <td><at><span id="{{sid}}_NET_OUT" style="max-width: fit-content;">NaN</span>/s</at></td>
+        <td><st><span id="{{sid}}_NET_IN" style="max-width: fit-content;">NaN</span></st></td>
+        <td><at><span id="{{sid}}_NET_OUT" style="max-width: fit-content;">NaN</span></at></td>
         <td><st><span id="{{sid}}_NET_IN_TOTAL" style="max-width: fit-content;">NaN</span></st></td>
         <td><at><span id="{{sid}}_NET_OUT_TOTAL" style="max-width: fit-content;">NaN</span></at></td>
         <td class="progress">

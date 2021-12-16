@@ -1,9 +1,18 @@
+var KB=1024,MB=KB*1024,GB=MB*1024,TB=GB*1024;
 function strB(b){
-    if(b<1000)return b.toFixed(2)+'B';
-    if(b<1000000)return (b/1000).toFixed(2)+'KB';
-    if(b<1000000000)return (b/1000000).toFixed(2)+'MB';
-    if(b<1000000000000)return (b/1000000000).toFixed(2)+'GB';
-    else return (b/1000000000000).toFixed(2)+'TB';
+    if(b<KB)return b.toFixed(2)+'B';
+    if(b<MB)return (b/KB).toFixed(2)+'KB';
+    if(b<GB)return (b/MB).toFixed(2)+'MB';
+    if(b<TB)return (b/GB).toFixed(2)+'GB';
+    else return (b/TB).toFixed(2)+'TB';
+}
+var Kbps=128,Mbps=Kbps*1000,Gbps=Mbps*1000,Tbps=Gbps*1000;
+function strbps(b){
+    if(b<Kbps)return b.toFixed(2)+'bps';
+    if(b<Mbps)return (b/Kbps).toFixed(2)+'Kbps';
+    if(b<Gbps)return (b/Mbps).toFixed(2)+'Mbps';
+    if(b<Tbps)return (b/Gbps).toFixed(2)+'Gbps';
+    else return (b/Tbps).toFixed(2)+'Tbps';
 }
 var mem_tooltips={},host_tooltips={};
 setInterval(async()=>{
@@ -20,8 +29,8 @@ setInterval(async()=>{
         if(mem_tooltips[sid])mem_tooltips[sid].$element[0].innerText=content;
 	    else mem_tooltips[sid]=new mdui.Tooltip(`#${sid}_MEM_item`,{content});
 
-        E(`${sid}_NET_IN`).innerText=strB(net.delta.in);
-        E(`${sid}_NET_OUT`).innerText=strB(net.delta.out);
+        E(`${sid}_NET_IN`).innerText=strbps(net.delta.in);
+        E(`${sid}_NET_OUT`).innerText=strbps(net.delta.out);
         E(`${sid}_NET_IN_TOTAL`).innerText=strB(net.total.in);
         E(`${sid}_NET_OUT_TOTAL`).innerText=strB(net.total.out);
 
