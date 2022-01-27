@@ -35,8 +35,8 @@ async function get(){
     E(`SWAP_progress`).style.width=`${usage*100}%`;
     content+=`\nswap: ${strB(used)}/${strB(total)}`;
     mem_tooltip.$element[0].innerText=content;
-    E(`NET_IN`).innerText=strB(net.delta.in);
-    E(`NET_OUT`).innerText=strB(net.delta.out);
+    E(`NET_IN`).innerText=strbps(net.delta.in);
+    E(`NET_OUT`).innerText=strbps(net.delta.out);
     E(`NET_IN_TOTAL`).innerText=strB(net.total.in);
     E(`NET_OUT_TOTAL`).innerText=strB(net.total.out);
 

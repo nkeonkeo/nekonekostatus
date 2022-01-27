@@ -56,13 +56,13 @@
                 <div class="mdui-list-item-content">
                     <div class="mdui-list-item-title">下行</div>
                     <div class="mdui-list-item-text mdui-list-item-one-line" style="opacity:1;">
-                        <st><span id="NET_IN">{{strB(node.stat.net.delta.in)}}</span>/s</st>
+                        <st><span id="NET_IN"></span></st>
                     </div>
                 </div>
                 <div class="mdui-list-item-content">
                     <div class="mdui-list-item-title">上行</div>
                     <div class="mdui-list-item-text mdui-list-item-one-line" style="opacity:1;">
-                        <at><span id="NET_OUT">{{strB(node.stat.net.delta.out)}}</span>/s</at>
+                        <at><span id="NET_OUT"></span></at>
                     </div>
                 </div>
             </li>
@@ -95,8 +95,8 @@
                         {%for device,net in node.stat.net.devices%}
                         <tr>
                             <td>{{device}}</td>
-                            <td id="net_{{device}}_delta_in">{{strB(net.delta.in)}}/s</td>
-                            <td id="net_{{device}}_delta_out">{{strB(net.delta.out)}}/s</td>
+                            <td id="net_{{device}}_delta_in"></td>
+                            <td id="net_{{device}}_delta_out"></td>
                             <td id="net_{{device}}_total_in">{{strB(net.total.in)}}</td>
                             <td id="net_{{device}}_total_out">{{strB(net.total.out)}}</td>
                         </tr>
