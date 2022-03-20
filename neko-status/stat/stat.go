@@ -1,6 +1,7 @@
 package stat
 
 import (
+	"neko-status/walled"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,10 @@ import (
 )
 
 func GetStat() (map[string]interface{}, error) {
-	timer := time.NewTimer(300 * time.Millisecond)
-	res := gin.H{}
+	timer := time.NewTimer(500 * time.Millisecond)
+	res := gin.H{
+		"walled": walled.Walled,
+	}
 	CPU1, err := cpu.Times(true)
 	if err != nil {
 		return nil, err
@@ -73,8 +76,8 @@ func GetStat() (map[string]interface{}, error) {
 		_out := x.BytesSent - NET1[i].BytesSent
 		res["net"].(gin.H)["devices"].(gin.H)[x.Name] = gin.H{
 			"delta": gin.H{
-				"in":  float64(_in) / 0.3,
-				"out": float64(_out) / 0.3,
+				"in":  float64(_in) / 0.5,
+				"out": float64(_out) / 0.5,
 			},
 			"total": gin.H{
 				"in":  x.BytesRecv,
@@ -90,8 +93,8 @@ func GetStat() (map[string]interface{}, error) {
 		out_total += x.BytesSent
 	}
 	res["net"].(gin.H)["delta"] = gin.H{
-		"in":  float64(in) / 0.3,
-		"out": float64(out) / 0.3,
+		"in":  float64(in) / 0.5,
+		"out": float64(out) / 0.5,
 	}
 	res["net"].(gin.H)["total"] = gin.H{
 		"in":  in_total,

@@ -57,6 +57,7 @@ func API() {
 	r.GET("/stat", Stat)
 	r.GET("/iperf3", Iperf3)
 	r.GET("/iperf3ws", Iperf3Ws)
+	r.GET("/walled", Stat)
 	fmt.Println("Api port:", Config.Port)
 	fmt.Println("Api key:", Config.Key)
 	r.Run(":" + strconv.Itoa(Config.Port))
