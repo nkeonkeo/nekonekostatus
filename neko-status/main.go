@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"neko-status/stat"
+	"neko-status/walled"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v2"
@@ -48,6 +49,7 @@ func main() {
 		fmt.Println("neko-status v1.0")
 		return
 	}
+	go walled.MonitorWalled()
 	API()
 }
 func API() {

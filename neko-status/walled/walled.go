@@ -5,10 +5,6 @@ import (
 	"time"
 )
 
-func init() {
-	go TestWalled()
-}
-
 var Walled = false
 
 func MonitorWalled() {
@@ -19,18 +15,21 @@ func MonitorWalled() {
 }
 
 func TestWalled() bool {
-	retry := 3
-TRY:
+	for i := 0; i < 3; i++ {
+		if !walled() {
+			return false
+		}
+	}
+	return true
+}
+
+func walled() bool {
 	d := net.Dialer{Timeout: 10 * time.Second}
 	c, err := d.Dial("tcp", "www.baidu.com:80")
 	if err == nil {
 		c.Close()
 		return false
 	} else {
-		retry--
-		if retry == 0 {
-			return true
-		}
-		goto TRY
+		return true
 	}
 }
