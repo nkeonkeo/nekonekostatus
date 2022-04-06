@@ -20,7 +20,11 @@ sleep 5
 
 clear && echo "正在安装npm,git,gcc"
 
-yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y
+cent=$(cat /etc/redhat-release 2>/dev/null)
+if [[ $(echo $cent |grep -i -E 'centos') != "" ]]
+then yum install epel-release -y && yum install centos-release-scl git -y && yum install nodejs devtoolset-8-gcc* -y
+fi
+
 apt update -y && apt-get install nodejs npm git build-essential -y
 
 clear && echo "正在更新npm"
