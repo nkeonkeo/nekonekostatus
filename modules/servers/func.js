@@ -1,8 +1,7 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`
-a=apt
+`a=apt
 if [[ $(echo $(cat 1 2>/dev/null) | grep -i -E 'centos') != "" ]];then a=yum;fi
 if [[ "$(command -v wget)" ]];
 then green "检测到wget,继续..."
