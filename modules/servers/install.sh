@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ "$(command -v wget)" ]]
 then echo ""
 else
