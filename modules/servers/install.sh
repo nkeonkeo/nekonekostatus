@@ -9,9 +9,8 @@ $a update -y >>/dev/null 2>&1
 $a install wget -y >>/dev/null 2>&1
 fi
 
-
-if systemctl is-active nekonekostatus;then systemctl stop nekonekostatus;fi
-[[ -f /usr/bin/neko-status ]] && rm -rf /usr/bin/neko-status
+systemctl stop nekonekostatus
+[[ -f /usr/bin/neko-status ]] && rm -rf /usr/bin/neko-status & systemctl stop nekonekostatus
 [[ ! -d /etc/neko-status/ ]] && mkdir /etc/neko-status/
 
 CPU=$(uname -m)
@@ -30,5 +29,4 @@ then
 else
 exit 1
 fi
-wget https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status_linux_${cpu} -O /usr/bin/neko-status
-chmod +x /usr/bin/neko-status
+wget https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status_linux_${cpu} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status
