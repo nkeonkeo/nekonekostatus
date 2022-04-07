@@ -1,8 +1,29 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`wget --version||yum install wget -y||apt-get install wget -y
-/usr/bin/neko-status -v||(wget ${neko_status_url} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status)
+`
+a=apt
+if [[ $(echo $(cat 1 2>/dev/null) | grep -i -E 'centos') != "" ]];then a=yum;fi
+if [[ "$(command -v wget)" ]];
+then green "检测到wget,继续..."
+else echo "不存在wget,开始安装,请等待..."
+${a} update -y >>/dev/null 2>&1
+${a} install wget -y >>/dev/null 2>&1
+fi
+CPU=$(uname -m)
+if [[ "$CPU" == "aarch64" ]]
+then
+  cpu=arm64
+elif [[ "$CPU" == "arm" ]]
+then
+  cpu=arm7
+elif [[ "$CPU" == "x86_64" ]]
+then
+  cpu=amd64
+else
+exit 1
+fi
+wget https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status_linux_${cpu} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status
 systemctl stop nekonekostatus
 mkdir /etc/neko-status/
 echo "key: ${server.data.api.key}
