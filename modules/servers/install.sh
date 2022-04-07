@@ -1,4 +1,5 @@
 if [[ "$(command -v wget)" ]]
+then echo ""
 else
 a=apt
 cent=$(cat /etc/redhat-release 2>/dev/null)
