@@ -1,7 +1,7 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`bash <(curl -sSL 'https://cdn.jsdelivr.net/gh/mslxi/nekonekostatus/modules/servers/install.sh')
+`bash <(curl -sSL 'https://raw.githubusercontent.com/mslxi/nekonekostatus/main/modules/servers/install.sh')
 echo "key: ${server.data.api.key}
 port: ${server.data.api.port}
 debug: false" > /etc/neko-status/config.yaml
@@ -24,7 +24,7 @@ systemctl enable nekonekostatus`
 }
 async function updateServer(server,neko_status_url){
     var sh=
-`bash <(curl -sSL 'https://cdn.jsdelivr.net/gh/mslxi/nekonekostatus/modules/servers/install.sh')`
+`bash <(curl -sSL 'https://raw.githubusercontent.com/mslxi/nekonekostatus/main/modules/servers/install.sh')`
     await ssh.Exec(server.data.ssh,sh);
     return {status:1,data:"更新成功"};
 }
