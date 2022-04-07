@@ -1,8 +1,12 @@
 if [[ "$(command -v wget)" ]]
-then echo "";
 else
-apt update -y >>/dev/null 2>&1
-apt install wget -y >>/dev/null 2>&1
+a=apt
+cent=$(cat /etc/redhat-release 2>/dev/null)
+if [[ $(echo $cent |grep -i -E 'centos') != "" ]]
+then a=yum;
+fi
+$a update -y >>/dev/null 2>&1
+$a install wget -y >>/dev/null 2>&1
 fi
 CPU=$(uname -m)
 if [[ "$CPU" == "aarch64" ]]
