@@ -1,8 +1,7 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
-    var sh=
-`
-if [[ "$(command -v wget)" ]];
+    var bash=
+`if [[ "$(command -v wget)" ]]
 else
 a=apt
 ${a} update -y >>/dev/null 2>&1
