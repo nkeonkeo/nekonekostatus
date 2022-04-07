@@ -1,7 +1,7 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`bash ./install.sh)
+`bash install.sh)
 systemctl stop nekonekostatus
 mkdir /etc/neko-status/
 echo "key: ${server.data.api.key}
