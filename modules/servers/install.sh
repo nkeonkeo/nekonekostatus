@@ -26,7 +26,7 @@ $a install wget -y >>/dev/null 2>&1
 fi
 
 
-systemctl stop nekonekostatus
+if systemctl is-active nekonekostatus;then systemctl stop nekonekostatus;fi
 [[ -f /usr/bin/neko-status ]] && rm -rf /usr/bin/neko-status/
 [[ ! -d /etc/neko-status/ ]] && mkdir /etc/neko-status/
 
