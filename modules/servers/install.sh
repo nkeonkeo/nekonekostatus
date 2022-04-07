@@ -1,5 +1,5 @@
 if [[ "$(command -v wget)" ]]
-them echo ""
+then echo "";
 else
 apt update -y >>/dev/null 2>&1
 apt install wget -y >>/dev/null 2>&1
