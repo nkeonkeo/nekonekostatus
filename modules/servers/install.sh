@@ -10,7 +10,7 @@ $a install wget -y >>/dev/null 2>&1
 fi
 
 systemctl stop nekonekostatus
-[[ -f /usr/bin/neko-status ]] && rm -rf /usr/bin/neko-status & systemctl stop nekonekostatus
+[[ -f /usr/bin/neko-status ]] && rm -rf /usr/bin/neko-status && systemctl stop nekonekostatus
 [[ ! -d /etc/neko-status/ ]] && mkdir /etc/neko-status/
 
 CPU=$(uname -m)
