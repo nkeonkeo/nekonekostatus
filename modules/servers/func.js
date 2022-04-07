@@ -1,11 +1,10 @@
 const ssh=require("../../ssh");
 async function initServer(server,neko_status_url){
     var sh=
-`a=apt
-if [[ $(echo $(cat 1 2>/dev/null) | grep -i -E 'centos') != "" ]];then a=yum;fi
+`
 if [[ "$(command -v wget)" ]];
-then echo "检测到wget,继续..."
-else echo "不存在wget,开始安装,请等待..."
+else
+a=apt
 ${a} update -y >>/dev/null 2>&1
 ${a} install wget -y >>/dev/null 2>&1
 fi
