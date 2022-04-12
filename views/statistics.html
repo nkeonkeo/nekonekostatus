@@ -2,21 +2,7 @@
     <textarea id='traffic_data' hidden>{{traffic|dump}}</textarea>
     <textarea id='load_m_data' hidden>{{load_m|dump}}</textarea>
     <textarea id='load_h_data' hidden>{{load_h|dump}}</textarea>
-    
-    <div class="mdui-panel-item mdui-panel-item-open">
-        <div class="mdui-panel-item-header">
-            <div class="mdui-panel-item-title">负载监控</div>
-            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-        </div>
-        <div class="mdui-panel-item-body">
-            <div class="mdui-tab mdui-tab-full-width" mdui-tab>
-                <a href="#load-ms" class="mdui-ripple">过去60分钟</a>
-                <a href="#load-hs" class="mdui-ripple">过去24小时</a>
-            </div>
-            <div id="load-ms" class="mdui-p-a-2"><canvas id="load-m" height="100"></canvas></div>
-            <div id="load-hs" class="mdui-p-a-2"><canvas id="load-h" height="100"></canvas></div>
-        </div>
-    </div>
+    <el-descriptions-item label="CPU频率">{{data.Overview.CPUFreq}}</el-descriptions-item>
     <div class="mdui-panel-item mdui-panel-item-open">
         <div class="mdui-panel-item-header">
             <div class="mdui-panel-item-title">带宽监控</div>
@@ -29,6 +15,20 @@
             </div>
             <div id="load-m-bws" class="mdui-p-a-2"><canvas id="load-m-bw" height="100"></canvas></div>
             <div id="load-h-bws" class="mdui-p-a-2"><canvas id="load-h-bw" height="100"></canvas></div>
+        </div>
+    </div>
+    <div class="mdui-panel-item mdui-panel-item-open">
+        <div class="mdui-panel-item-header">
+            <div class="mdui-panel-item-title">负载监控</div>
+            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <div class="mdui-panel-item-body">
+            <div class="mdui-tab mdui-tab-full-width" mdui-tab>
+                <a href="#load-ms" class="mdui-ripple">过去60分钟</a>
+                <a href="#load-hs" class="mdui-ripple">过去24小时</a>
+            </div>
+            <div id="load-ms" class="mdui-p-a-2"><canvas id="load-m" height="100"></canvas></div>
+            <div id="load-hs" class="mdui-p-a-2"><canvas id="load-h" height="100"></canvas></div>
         </div>
     </div>
     <div class="mdui-panel-item mdui-panel-item-open">
