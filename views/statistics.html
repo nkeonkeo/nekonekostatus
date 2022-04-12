@@ -2,18 +2,7 @@
     <textarea id='traffic_data' hidden>{{traffic|dump}}</textarea>
     <textarea id='load_m_data' hidden>{{load_m|dump}}</textarea>
     <textarea id='load_h_data' hidden>{{load_h|dump}}</textarea>
-            </div>
-            <div id="traffic-ds" class="mdui-p-a-2"><canvas id="ds" height="100"></canvas></div>
-            <div id="traffic-ms" class="mdui-p-a-2"><canvas id="ms" height="100"></canvas></div>
-            <div id="traffic-hs" class="mdui-p-a-2"><canvas id="hs" height="100"></canvas></div>
-        </div>
-    </div>
-    {%block js%}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0"></script>
-    <script src="/js/load.js"></script>
-    <script src="/js/traffic.js"></script>
-    {%endblock%}
-</div>
+
     <div class="mdui-panel-item mdui-panel-item-open">
         <div class="mdui-panel-item-header">
             <div class="mdui-panel-item-title">带宽监控</div>
@@ -55,3 +44,15 @@
                 <a href="#traffic-hs" class="mdui-ripple">过去24小时</a>
                 <a href="#traffic-ds" class="mdui-ripple">过去31天</a>
                 <a href="#traffic-ms" class="mdui-ripple">过去12个月</a>
+            </div>
+            <div id="traffic-ds" class="mdui-p-a-2"><canvas id="ds" height="100"></canvas></div>
+            <div id="traffic-ms" class="mdui-p-a-2"><canvas id="ms" height="100"></canvas></div>
+            <div id="traffic-hs" class="mdui-p-a-2"><canvas id="hs" height="100"></canvas></div>
+        </div>
+    </div>
+    {%block js%}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0"></script>
+    <script src="/js/load.js"></script>
+    <script src="/js/traffic.js"></script>
+    {%endblock%}
+</div>
