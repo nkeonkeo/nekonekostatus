@@ -29,4 +29,12 @@ then
 else
 exit 1
 fi
-wget https://github.com/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status_linux_${cpu} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status
+
+ ## China_IP
+if [[ $(curl -m 10 -s https://ipapi.co/json | grep 'China') != "" ]]; then
+URL="dn-dao-github-mirror.daocloud.io"
+fi
+
+URL="github.com"
+
+wget https://${url}/nkeonkeo/nekonekostatus/releases/download/v0.1/neko-status_linux_${cpu} -O /usr/bin/neko-status && chmod +x /usr/bin/neko-status
