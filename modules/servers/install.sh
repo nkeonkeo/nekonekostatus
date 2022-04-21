@@ -5,8 +5,15 @@ cent=$(cat /etc/redhat-release 2>/dev/null)
 if [[ $(echo $cent |grep -i -E 'centos') != "" ]]
 then a=yum;
 fi
-$a update -y >>/dev/null 2>&1
-$a install wget -y >>/dev/null 2>&1
+
+if ! [ -x "$(command -v curl)" ]; then
+  ${a} update -y >>/dev/null 2>&1
+  ${a} install curl -y >>/dev/null 2>&1
+fi
+
+if ! [ -x "$(command -v wget)" ]; then
+  ${a} update -y >>/dev/null 2>&1
+  ${a} install wget -y >>/dev/null 2>&1
 fi
 
 systemctl stop nekonekostatus
