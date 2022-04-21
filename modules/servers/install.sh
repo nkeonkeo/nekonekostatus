@@ -1,9 +1,13 @@
 #!/bin/bash
-if [[ ! "$(command -v wget)" ]];then
-  a=apt
+sys=$(cat /etc/issue)
 cent=$(cat /etc/redhat-release 2>/dev/null)
-if [[ $(echo $cent |grep -i -E 'centos') != "" ]];then
+if [[ $(cat /etc/redhat-release 2>/dev/null |grep -i -E 'centos') != "" ]];then
   a=yum
+elif [[ $(cat /etc/issue 2>/dev/null |grep -i -E 'debian|ubuntu') != "" ]];then
+  a=apt
+else 
+  echo "不支持当前系统"
+  exit 1
 fi
 
 if ! [ -x "$(command -v curl)" ];then
