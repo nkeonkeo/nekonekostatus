@@ -1,6 +1,4 @@
 #!/bin/bash
-sys=$(cat /etc/issue)
-cent=$(cat /etc/redhat-release 2>/dev/null)
 if [[ $(cat /etc/redhat-release 2>/dev/null |grep -i -E 'centos') != "" ]];then
   a=yum
 elif [[ $(cat /etc/issue 2>/dev/null |grep -i -E 'debian|ubuntu') != "" ]];then
