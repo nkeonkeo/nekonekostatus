@@ -30,7 +30,6 @@ else
 exit 1
 fi
 
- ## China_IP
 if [[ $(curl -m 10 -s https://ipapi.co/json | grep 'China') != "" ]]; then
 URL="dn-dao-github-mirror.daocloud.io"
 fi
