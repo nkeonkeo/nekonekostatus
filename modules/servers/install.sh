@@ -34,7 +34,7 @@ else
   exit 1
 fi
 
-if [[ $(curl -m 10 -s https://ipapi.co/json | grep 'China') != "" ]];then
+if [[ $(curl -m 10 -s https://ipapi.co/json | grep -E -i 'China|error') != "" ]];then
   URL="dn-dao-github-mirror.daocloud.io"
 else
   URL="github.com"
